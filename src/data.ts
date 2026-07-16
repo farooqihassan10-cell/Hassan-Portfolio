@@ -52,10 +52,10 @@ export const PROJECTS: Project[] = [
     name: "SaaS Dashboard",
     category: "Web Application",
     description: "An AI-powered analytics hub featuring real-time telemetry, predictive customer churn modeling, and beautifully dense data grid systems with custom canvas-rendered SVG visualizers.",
-    image: "https://images.unsplash.com/photo-1551288049-bebda4e38f71?auto=format&fit=crop&w=800&q=80",
+    image: "/src/assets/images/web-project.png",
     tech: ["React", "TypeScript", "Tailwind", "D3.js", "GSAP"],
-    visitUrl: "https://github.com",
-    githubUrl: "https://github.com"
+    visitUrl: "#",
+    githubUrl: "#"
   },
   {
     id: "proj-2",
@@ -63,21 +63,21 @@ export const PROJECTS: Project[] = [
     name: "E-Commerce Store",
     category: "Web Application",
     description: "High-end luxury fashion store powered by Stripe API, featuring high-fidelity fluid transitions, elegant filter systems, magnetic cart behaviors, and real-time stock sync.",
-    image: "https://images.unsplash.com/photo-1441986300917-64674bd600d8?auto=format&fit=crop&w=800&q=80",
+    image: "/src/assets/images/web-project2.png",
     tech: ["React", "Stripe", "Framer Motion", "Tailwind", "Node.js"],
-    visitUrl: "https://github.com",
-    githubUrl: "https://github.com"
+    visitUrl: "#",
+    githubUrl: "#"
   },
   {
     id: "proj-3",
     number: "03",
-    name: "AI Image Generator",
+    name: "AI Generator Website",
     category: "Web Application",
     description: "An award-winning generator utilizing state-of-the-art diffusion models to spawn stunning high-fidelity wallpapers, digital art, and isometric icons directly in-browser with seamless local cache storage.",
-    image: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?auto=format&fit=crop&w=800&q=80",
-    tech: ["React", "Gemini API", "Tailwind", "Webhooks", "LocalForage"],
-    visitUrl: "https://github.com",
-    githubUrl: "https://github.com"
+    image: "/src/assets/images/web-project3.png",
+    tech: ["Cloud", "Gemini", "Google AI Studio", "Chatgpt", "Black Box Ai"],
+    visitUrl: "#",
+    githubUrl: "#"
   },
   {
     id: "proj-4",
@@ -85,21 +85,21 @@ export const PROJECTS: Project[] = [
     name: "3D Portfolio",
     category: "Web Application",
     description: "A highly interactive, award-winning 3D spatial catalog utilizing customized matrix transform coordinates and mathematical shader-based glassmorphism rendering layers.",
-    image: "https://images.unsplash.com/photo-1634017839464-5c339ebe3cb4?auto=format&fit=crop&w=800&q=80",
+    image: "/src/assets/images/web-project4.png",
     tech: ["React", "GSAP", "Canvas 3D", "CSS-3D", "Lenis"],
-    visitUrl: "https://github.com",
-    githubUrl: "https://github.com"
+    visitUrl: "#",
+    githubUrl: "#"
   },
   {
     id: "proj-5",
     number: "05",
-    name: "Crypto Dashboard",
+    name: "Coding Website",
     category: "Web Application",
-    description: "Real-time algorithmic trading interface with lightning-fast websocket charting, historical depth visualizers, glassmorphic metrics cards, and tactile audio feedback nodes.",
-    image: "https://images.unsplash.com/photo-1621761191319-c6fb62004040?auto=format&fit=crop&w=800&q=80",
+    description: "Real-time algorithmic coding interface with lightning-fast websocket charting, historical depth visualizers, glassmorphic metrics cards, and tactile audio feedback nodes.",
+    image: "/src/assets/images/web-project5.png",
     tech: ["React", "WebSockets", "Recharts", "Tailwind", "GSAP"],
-    visitUrl: "https://github.com",
-    githubUrl: "https://github.com"
+    visitUrl: "#",
+    githubUrl: "#"
   }
 ];
 
@@ -107,44 +107,129 @@ export const WEB_DESIGNS: WebDesign[] = [
   {
     id: "design-1",
     number: "01",
-    name: "Creative Agency",
-    category: "Website Design",
-    image: "https://images.unsplash.com/photo-1507238691740-187a5b1d37b8?auto=format&fit=crop&w=800&q=80"
+    name: "Kitkate",
+    category: "Poster Design",
+    image: "/src/assets/images/project1.webp"
   },
   {
     id: "design-2",
     number: "02",
-    name: "Startup Landing",
-    category: "Website Design",
-    image: "https://images.unsplash.com/photo-1460925895917-afdab827c52f?auto=format&fit=crop&w=800&q=80"
+    name: "Starbucks",
+    category: "Poster Design",
+    image: "/src/assets/images/project2.png"
   },
   {
     id: "design-3",
     number: "03",
-    name: "Digital Studio",
-    category: "Website Design",
-    image: "https://images.unsplash.com/photo-1542744094-3a31f103e35f?auto=format&fit=crop&w=800&q=80"
+    name: "INCREDIBLE",
+    category: "Poster Design",
+    image: "/src/assets/images/project3.png"
   },
   {
     id: "design-4",
     number: "04",
-    name: "Architecture Firm",
-    category: "Website Design",
-    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?auto=format&fit=crop&w=800&q=80"
+    name: "Stqrtbucks Coffee",
+    category: "Poster Design",
+    image: "/src/assets/images/project4.png"
   },
   {
     id: "design-5",
     number: "05",
-    name: "Personal Blog",
-    category: "Website Design",
-    image: "https://images.unsplash.com/photo-1499750310107-5fef28a66643?auto=format&fit=crop&w=800&q=80"
+    name: "Don't Follow",
+    category: "Poster Design",
+    image: "/src/assets/images/project5.png"
   }
+    {
+    id: "design-6",
+    number: "06",
+    name: "Headphone ATS M15",
+    category: "Poster Design",
+    image: "/src/assets/images/project6.png"
+  }
+    {
+    id: "design-7",
+    number: "07",
+    name: "PROMPTEURE",
+    category: "Poster Design",
+    image: "/src/assets/images/project7.png"
+  }
+    {
+    id: "design-8",
+    number: "08",
+    name: "Dresing",
+    category: "Poster Design",
+    image: "/src/assets/images/project8.png"
+  }
+    {
+    id: "design-9",
+    number: "09",
+    name: "Nike Air",
+    category: "Poster Design",
+    image: "/src/assets/images/project9.png"
+  }
+    {
+    id: "design-10",
+    number: "10",
+    name: "Dresing",
+    category: "Poster Design",
+    image: "/src/assets/images/project10.png"
+  }
+    {
+    id: "design-11",
+    number: "11",
+    name: "HIGHSNOBIETY",
+    category: "Poster Design",
+    image: "/src/assets/images/project11.png"
+  }
+    {
+    id: "design-12",
+    number: "12",
+    name: "Pizza Hut",
+    category: "Poster Design",
+    image: "/src/assets/images/project12.png"
+  }
+    {
+    id: "design-13",
+    number: "13",
+    name: "Focus Differend",
+    category: "Poster Design",
+    image: "/src/assets/images/project13.png"
+  }
+    {
+    id: "design-14",
+    number: "14",
+    name: "PREMIUM",
+    category: "Poster Design",
+    image: "/src/assets/images/project14.png"
+  }
+    {
+    id: "design-15",
+    number: "15",
+    name: "IPHONE 17",
+    category: "Poster Design",
+    image: "/src/assets/images/project15.png"
+  }
+    {
+    id: "design-16",
+    number: "16",
+    name: "ELEGANCE",
+    category: "Poster Design",
+    image: "/src/assets/images/project16.png"
+  }
+    {
+    id: "design-17",
+    number: "17",
+    name: "AI Genrate",
+    category: "Poster Design",
+    image: "/src/assets/images/project17.png"
+  }
+
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
   {
     id: "test-1",
-    name: "Ali Raza",
+    name: "Ali",
     company: "Tech Solutions",
     role: "CEO",
     review: "Hassan is an exceptional developer who delivers beyond expectations. Highly recommended!",
