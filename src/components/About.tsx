@@ -1,8 +1,9 @@
 import { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
+import profileImage from "../assets/images/profile.png";
 
 // Image path we generated: /src/assets/images/hassan_farooqi_profile_1784050081837.jpg
-const PROFILE_IMAGE_PATH = "/src/assets/images/model3.png";
+const PROFILE_IMAGE_PATH = profileImage;
 
 interface CounterProps {
   end: number;

@@ -1,3 +1,21 @@
+import project1 from "./assets/images/project1.webp";
+import project2 from "./assets/images/project2.png";
+import project3 from "./assets/images/project3.png";
+import project4 from "./assets/images/project4.png";
+import project5 from "./assets/images/project5.png";
+import project6 from "./assets/images/project6.png";
+import project7 from "./assets/images/project7.png";
+import project8 from "./assets/images/project8.png";
+import project9 from "./assets/images/project9.png";
+import project10 from "./assets/images/project10.png";
+import project11 from "./assets/images/project11.png";
+import project12 from "./assets/images/project12.png";
+import project13 from "./assets/images/project13.png";
+import project14 from "./assets/images/project14.png";
+import project15 from "./assets/images/project15.png";
+import project16 from "./assets/images/project16.png";
+import project17 from "./assets/images/project17.png";
+
 export interface Project {
   id: string;
   number: string;
@@ -9,6 +27,13 @@ export interface Project {
   visitUrl: string;
   githubUrl: string;
 }
+
+import webProject1 from "./assets/images/web-project1.png";
+import webProject2 from "./assets/images/web-project2.png";
+import webProject3 from "./assets/images/web-project3.png";
+import webProject4 from "./assets/images/web-project4.png";
+import webProject5 from "./assets/images/web-project5.png";
+import webProject6 from "./assets/images/web-project6.png";
 
 export interface WebDesign {
   id: string;
@@ -38,54 +63,57 @@ export interface Skill {
 export const SKILLS: Skill[] = [
   { name: "HTML", percentage: 95, icon: "html5", color: "from-orange-500 to-red-500" },
   { name: "CSS", percentage: 90, icon: "css3", color: "from-blue-500 to-indigo-500" },
-  { name: "JavaScript", percentage: 92, icon: "js", color: "from-yellow-400 to-amber-500" },
+  { name: "JavaScript", percentage: 65, icon: "js", color: "from-yellow-400 to-amber-500" },
   { name: "Blender", percentage: 85, icon: "blender", color: "from-orange-400 to-amber-600" },
   { name: "Canvas", percentage: 85, icon: "canvas", color: "from-emerald-400 to-teal-500" },
   { name: "Photoshop", percentage: 90, icon: "photoshop", color: "from-sky-500 to-blue-700" },
   { name: "Illustrator", percentage: 90, icon: "illustrator", color: "from-amber-600 to-orange-600" }
 ];
 
-export const PROJECTS: Project[] = [
+
+    export const PROJECTS: Project[] = [
   {
     id: "proj-1",
     number: "01",
-    name: "SaaS Dashboard",
-    category: "Web Application",
-    description: "An AI-powered analytics hub featuring real-time telemetry, predictive customer churn modeling, and beautifully dense data grid systems with custom canvas-rendered SVG visualizers.",
-    image: "/src/assets/images/web-project.png",
-    tech: ["React", "TypeScript", "Tailwind", "D3.js", "GSAP"],
+    name: "KitKat",
+    category: "Poster Design",
+    description: "A premium chocolate advertisement poster featuring bold typography, vibrant colors, and a visually engaging product-focused composition.",
+    image: project1,
+    tech: ["Photoshop", "Illustrator", "Typography", "Branding", "Mockup"]
+,
     visitUrl: "#",
     githubUrl: "#"
   },
   {
     id: "proj-2",
     number: "02",
-    name: "E-Commerce Store",
-    category: "Web Application",
-    description: "High-end luxury fashion store powered by Stripe API, featuring high-fidelity fluid transitions, elegant filter systems, magnetic cart behaviors, and real-time stock sync.",
-    image: "/src/assets/images/web-project2.png",
-    tech: ["React", "Stripe", "Framer Motion", "Tailwind", "Node.js"],
+    name: "STARBUCKS",
+    category: "Poster Design",
+    description: "A modern coffee promotional poster designed with elegant branding, premium aesthetics, and eye-catching visual storytelling.",
+    image: project2,
+    tech: ["Photoshop", "Illustrator", "Product Design", "Typography", "Branding"]
+,
     visitUrl: "#",
     githubUrl: "#"
   },
   {
     id: "proj-3",
     number: "03",
-    name: "AI Generator Website",
-    category: "Web Application",
-    description: "An award-winning generator utilizing state-of-the-art diffusion models to spawn stunning high-fidelity wallpapers, digital art, and isometric icons directly in-browser with seamless local cache storage.",
-    image: "/src/assets/images/web-project3.png",
-    tech: ["Cloud", "Gemini", "Google AI Studio", "Chatgpt", "Black Box Ai"],
+    name: "INCREDIBLE",
+    category: "Poster Design",
+    description: "A bold cinematic poster with creative typography, dramatic lighting, and a powerful composition for maximum visual impact.",
+    image: project3,
+    tech: ["Cloud", "Gemini", "Google AI Studio", "ChatGPT", "Black Box AI"],
     visitUrl: "#",
     githubUrl: "#"
   },
   {
     id: "proj-4",
     number: "04",
-    name: "3D Portfolio",
-    category: "Web Application",
-    description: "A highly interactive, award-winning 3D spatial catalog utilizing customized matrix transform coordinates and mathematical shader-based glassmorphism rendering layers.",
-    image: "/src/assets/images/web-project4.png",
+    name: "STARBUCKS COFFEE",
+    category: "Poster Design",
+    description: "A luxury coffee campaign poster combining clean layouts, premium branding, and modern design principles.",
+    image: project4,
     tech: ["React", "GSAP", "Canvas 3D", "CSS-3D", "Lenis"],
     visitUrl: "#",
     githubUrl: "#"
@@ -93,137 +121,215 @@ export const PROJECTS: Project[] = [
   {
     id: "proj-5",
     number: "05",
-    name: "Coding Website",
-    category: "Web Application",
-    description: "Real-time algorithmic coding interface with lightning-fast websocket charting, historical depth visualizers, glassmorphic metrics cards, and tactile audio feedback nodes.",
-    image: "/src/assets/images/web-project5.png",
+    name: "Don't Follow",
+    category: "Poster Design",
+    description: "A motivational social awareness poster featuring bold typography, creative composition, and a strong visual message.",
+    image: project5,
     tech: ["React", "WebSockets", "Recharts", "Tailwind", "GSAP"],
     visitUrl: "#",
     githubUrl: "#"
-  }
+  },
+  {
+  id: "proj-6",
+  number: "06",
+  name: "Headphone ATS M15",
+  category: "Poster Design",
+  description: "A premium product advertisement poster highlighting sleek design, modern lighting effects, and professional marketing visuals.",
+  image: project6,
+  tech: ["Photoshop", "Product Advertisement", "Photo Manipulation", "Typography", "Mockup"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-7",
+  number: "07",
+  name: "PROMPTEURE",
+  category: "Poster Design",
+  description: "A futuristic AI-inspired promotional poster designed with minimal aesthetics, modern typography, and premium branding.",
+  image: project7,
+  tech: ["Photoshop", "AI Design", "Typography", "Branding", "Creative Layout"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-8",
+  number: "08",
+  name: "Dressing",
+  category: "Poster Design",
+  description: "A stylish fashion poster showcasing luxury apparel with elegant layouts, bold visuals, and modern branding.",
+  image: project8,
+  tech: ["Photoshop", "Fashion Design", "Typography", "Brand Identity", "Mockup"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-9",
+  number: "09",
+  name: "Nike Air",
+  category: "Poster Design",
+  description: "A high-end sneaker advertisement poster featuring dynamic composition, premium product presentation, and bold typography.",
+  image: project9,
+  tech: ["Photoshop", "Sports Branding", "Product Design", "Typography", "Advertising"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-10",
+  number: "10",
+  name: "Dressing",
+  category: "Poster Design",
+  description: "A contemporary fashion campaign poster with clean aesthetics, premium visuals, and luxury brand styling.",
+  image: project10,
+  tech: ["Photoshop", "Fashion Branding", "Typography", "Creative Layout", "Mockup"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-11",
+  number: "11",
+  name: "HIGHSNOBIETY",
+  category: "Poster Design",
+  description: "A modern editorial-style poster combining luxury fashion branding, bold typography, and premium visual balance.",
+  image: project11,
+  tech: ["Photoshop", "Editorial Design", "Typography", "Magazine Style", "Branding"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-12",
+  number: "12",
+  name: "Pizza Hut",
+  category: "Poster Design",
+  description: "A mouth-watering food advertisement poster designed with vibrant colors, premium product presentation, and engaging visuals.",
+  image: project12,
+  tech: ["Photoshop", "Food Advertisement", "Typography", "Brand Identity", "Photo Editing"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-13",
+  number: "13",
+  name: "Focus Different",
+  category: "Poster Design",
+  description: "A creative motivational poster emphasizing innovation, unique thinking, and modern visual storytelling.",
+  image: project13,
+  tech: ["Photoshop", "Creative Design", "Typography", "Branding", "Advertising"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-14",
+  number: "14",
+  name: "PREMIUM",
+  category: "Poster Design",
+  description: "A luxury branding poster featuring elegant typography, minimalist composition, and a sophisticated visual identity.",
+  image: project14,
+  tech: ["Photoshop", "Luxury Branding", "Minimal Design", "Typography", "Mockup"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-15",
+  number: "15",
+  name: "IPHONE 17",
+  category: "Poster Design",
+  description: "A futuristic smartphone launch poster showcasing premium product rendering, clean aesthetics, and modern technology branding.",
+  image: project15,
+  tech: ["Photoshop", "Product Design", "Technology Branding", "Typography", "3D Mockup"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-16",
+  number: "16",
+  name: "ELEGANCE",
+  category: "Poster Design",
+  description: "A luxury lifestyle poster designed with refined typography, premium color harmony, and sophisticated visual appeal.",
+  image: project16,
+  tech: ["Photoshop", "Luxury Design", "Typography", "Brand Identity", "Creative Layout"],
+  visitUrl: "#",
+  githubUrl: "#"
+},
+{
+  id: "proj-17",
+  number: "17",
+  name: "AI Generate",
+  category: "Poster Design",
+  description: "A modern AI-inspired promotional poster highlighting creativity, advanced technology, and futuristic visual design.",
+  image: project17,
+  tech: ["Photoshop", "AI Art", "Creative Design", "Typography", "Digital Branding"],
+  visitUrl: "#",
+  githubUrl: "#"
+}
 ];
 
 export const WEB_DESIGNS: WebDesign[] = [
   {
-    id: "design-1",
+    id: "web-design-1",
     number: "01",
-    name: "Kitkate",
-    category: "Poster Design",
-    image: "/src/assets/images/project1.webp"
+    name: "Music Muzium",
+    category: "Web Design",
+    description:"A Music platform with secure checkout, product filtering, responsive design, fast loading speed, and a premium shopping experience for customers.",
+    image: webProject1,
+    tech: ["React", "TypeScript", "Tailwind", "D3.js", "GSAP"],
+    visitUrl: "https://music-muzium.ai.studio",
+    githubUrl: "https://music-muzium.ai.studio"
   },
   {
-    id: "design-2",
+    id: "web-design-2",
     number: "02",
-    name: "Starbucks",
-    category: "Poster Design",
-    image: "/src/assets/images/project2.png"
+    name: "Data Access",
+    category: "Web Design",
+    description: "A modern coding platform featuring a clean developer interface, real-time code previews, responsive design, optimized performance, and an intuitive user experience.",
+    image: webProject2,
+    tech: ["React", "Tailwind", "Firebase", "GSAP"],
+    visitUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "design-3",
+    id: "web-design-3",
     number: "03",
-    name: "INCREDIBLE",
-    category: "Poster Design",
-    image: "/src/assets/images/project3.png"
+    name: "Portfolio",
+    category: "Web Design",
+    description: "A luxury portfolio website crafted with premium UI/UX, cinematic animations, interactive sections, glassmorphism aesthetics, and fully responsive performance to professionally showcase creative work and personal brand.",
+    image: webProject3,
+    tech: ["Cloud", "Gemini", "Google AI Studio", "ChatGPT", "Black Box AI"],
+    visitUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "design-4",
+    id: "web-design-4",
     number: "04",
-    name: "Stqrtbucks Coffee",
-    category: "Poster Design",
-    image: "/src/assets/images/project4.png"
+    name: "3D Desgin",
+    category: "Web Design",
+    description: "A futuristic 3D portfolio website with immersive animations, glassmorphism effects, smooth transitions, interactive sections, and a premium visual experience.",
+    image: webProject4,
+    tech: ["React", "GSAP", "Canvas 3D", "CSS-3D", "Lenis"],
+    visitUrl: "#",
+    githubUrl: "#"
   },
   {
-    id: "design-5",
+    id: "web-design-5",
     number: "05",
-    name: "Don't Follow",
-    category: "Poster Design",
-    image: "/src/assets/images/project5.png"
-  }
-    {
-    id: "design-6",
+    name: "Advance Codes",
+    category: "Web Design",
+    description: "An advanced AI-powered website integrating modern automation tools, intelligent workflows, clean interfaces, and high-performance user interactions.",
+    image: webProject5,
+    tech: ["React", "WebSockets", "Recharts", "Tailwind", "GSAP"],
+    visitUrl: "#",
+    githubUrl: "#"
+  },
+{
+    id: "web-design-6",
     number: "06",
-    name: "Headphone ATS M15",
-    category: "Poster Design",
-    image: "/src/assets/images/project6.png"
-  }
-    {
-    id: "design-7",
-    number: "07",
-    name: "PROMPTEURE",
-    category: "Poster Design",
-    image: "/src/assets/images/project7.png"
-  }
-    {
-    id: "design-8",
-    number: "08",
-    name: "Dresing",
-    category: "Poster Design",
-    image: "/src/assets/images/project8.png"
-  }
-    {
-    id: "design-9",
-    number: "09",
-    name: "Nike Air",
-    category: "Poster Design",
-    image: "/src/assets/images/project9.png"
-  }
-    {
-    id: "design-10",
-    number: "10",
-    name: "Dresing",
-    category: "Poster Design",
-    image: "/src/assets/images/project10.png"
-  }
-    {
-    id: "design-11",
-    number: "11",
-    name: "HIGHSNOBIETY",
-    category: "Poster Design",
-    image: "/src/assets/images/project11.png"
-  }
-    {
-    id: "design-12",
-    number: "12",
-    name: "Pizza Hut",
-    category: "Poster Design",
-    image: "/src/assets/images/project12.png"
-  }
-    {
-    id: "design-13",
-    number: "13",
-    name: "Focus Differend",
-    category: "Poster Design",
-    image: "/src/assets/images/project13.png"
-  }
-    {
-    id: "design-14",
-    number: "14",
-    name: "PREMIUM",
-    category: "Poster Design",
-    image: "/src/assets/images/project14.png"
-  }
-    {
-    id: "design-15",
-    number: "15",
-    name: "IPHONE 17",
-    category: "Poster Design",
-    image: "/src/assets/images/project15.png"
-  }
-    {
-    id: "design-16",
-    number: "16",
-    name: "ELEGANCE",
-    category: "Poster Design",
-    image: "/src/assets/images/project16.png"
-  }
-    {
-    id: "design-17",
-    number: "17",
-    name: "AI Genrate",
-    category: "Poster Design",
-    image: "/src/assets/images/project17.png"
-  }
-
+    name: "Advance Codes",
+    category: "Web Design",
+    description: "An advanced AI-powered website integrating modern automation tools, intelligent workflows, clean interfaces, and high-performance user interactions.",
+    image: webProject5,
+    tech: ["React", "WebSockets", "Recharts", "Tailwind", "GSAP"],
+    visitUrl: "#",
+    githubUrl: "#"
+  },
 ];
 
 export const TESTIMONIALS: Testimonial[] = [
@@ -242,7 +348,7 @@ export const TESTIMONIALS: Testimonial[] = [
     company: "Marketing Head",
     role: "Marketing Head",
     review: "Amazing work on our website! The design and performance is top notch.",
-    rating: 5,
+    rating: 6,
     image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?auto=format&fit=crop&w=200&q=80"
   },
   {

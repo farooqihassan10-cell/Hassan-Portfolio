@@ -81,7 +81,7 @@ function DesignCard({ design }: { design: WebDesign }) {
       <div>
         {/* Launch Preview glass button */}
         <button
-          onClick={() => window.open("https://behance.net", "_blank")}
+          onClick={() => window.open("https://music-muzium.ai.studio", "_blank")}
           className="w-full py-2.5 rounded-xl border border-white/10 bg-white/[0.01] hover:bg-white/10 text-[10px] tracking-widest font-mono text-white text-center flex items-center justify-center gap-2 transition-all duration-300 cursor-pointer"
         >
           <Eye className="w-4 h-4 text-white/60" />

@@ -1,6 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import { ArrowUpRight, ArrowRight, Download, ArrowDown } from "lucide-react";
 import gsap from "gsap";
+import resumePDF from "../assets/Resume/Hassan Farooqi resume.pdf";
 
 export default function Hero() {
   const heroRef = useRef<HTMLDivElement>(null);
@@ -339,8 +340,9 @@ export default function Hero() {
 
           {/* Download Resume */}
           <a
-            href="/resume.pdf"
-            download="Hassan_Farooqi_Resume.pdf"
+          href={resumePDF}
+          download="Hassan_Farooqi_Resume.pdf"
+
             className="w-full sm:w-auto relative px-8 py-3.5 rounded-full border border-white/10 bg-white/[0.01] hover:bg-white/[0.08] text-xs tracking-widest font-mono text-white/70 hover:text-white transition-all duration-300 active:scale-95 flex items-center justify-center gap-2 overflow-hidden cursor-pointer group"
           >
             <span>RESUME</span>

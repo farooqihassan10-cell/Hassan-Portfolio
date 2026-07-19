@@ -127,8 +127,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <div className="text-[10px] font-mono tracking-widest text-white/30 uppercase">EMAIL</div>
-                  <a href="mailto:hassanfarooqi.dev@gmail.com" className="text-sm md:text-base text-white/80 group-hover:text-white transition-colors">
-                    hassanfarooqi.dev@gmail.com
+                  <a href="mailto:farooqihassan10@gmail.com" className="text-sm md:text-base text-white/80 group-hover:text-white transition-colors">
+                    farooqihassan10@gmail.com
                   </a>
                 </div>
               </div>
@@ -140,8 +140,8 @@ export default function Contact() {
                 </div>
                 <div>
                   <div className="text-[10px] font-mono tracking-widest text-white/30 uppercase">PHONE</div>
-                  <a href="tel:+923234567890" className="text-sm md:text-base text-white/80 group-hover:text-white transition-colors">
-                    +92 323 4567890
+                  <a href="tel:+923115988798" className="text-sm md:text-base text-white/80 group-hover:text-white transition-colors">
+                    +92 311 5988798
                   </a>
                 </div>
               </div>
@@ -166,10 +166,10 @@ export default function Contact() {
               <span className="text-[10px] font-mono tracking-widest text-white/20 uppercase block mb-4">SOCIAL SYNDICATE</span>
               <div className="flex items-center gap-3">
                 {[
-                  { icon: Github, link: "https://github.com" },
-                  { icon: Linkedin, link: "https://linkedin.com" },
+                  { icon: Github, link: "https://github.com/farooqihassan10-cell" },
+                  { icon: Linkedin, link: "https://www.linkedin.com/in/sayed-muhammad-hassan-farooqi-86b08a311?utm_source=share_via&utm_content=profile&utm_medium=member_android" },
                   { icon: Instagram, link: "https://instagram.com" },
-                  { icon: Facebook, link: "https://facebook.com" }
+                  { icon: Facebook, link: "https://www.facebook.com/share/1BcJ29knH6/" }
                 ].map((social, i) => {
                   const Icon = social.icon;
                   return (
