@@ -1,5 +1,4 @@
-// Coverflow Gallery — Originkit
-// Originkit — defaults rewritten to match preview.
+// Coverflow Gallery — Enhanced Advance 3D UI
 "use client"
 import poster1 from "../assets/images/poster1.png";
 import poster2 from "../assets/images/poster2.png";
@@ -19,10 +18,6 @@ import React, {
   type CSSProperties,
 } from "react";
 
-/**
- * Simple static-renderer guard.
- * Returns true when rendering on the server (no window).
- */
 const useIsStaticRenderer = () => typeof window === "undefined";
 
 interface Slide {
@@ -59,110 +54,47 @@ interface Smooth3DSlideshowProps {
 }
 
 const DEFAULT_SLIDES: Slide[] = [
-  {
-    image: {
-      src: poster1,
-    },
-    title: "For Sitting\nMetal\nMinimal",
-  },
-  {
-    image: {
-      src: poster2,
-    },
-    title: "For Living\nConcrete\nForm",
-  },
-  {
-    image: {
-      src: poster3,
-    },
-    title: "For Working\nSteel\nClean",
-  },
-  {
-    image: {
-      src: poster4,
-    },
-    title: "For Working\nSteel\nClean",
-  },
-  {
-    image: {
-      src: poster5,
-    },
-    title: "For Working\nSteel\nClean",
-  },
-  {
-    image: {
-      src: poster6,
-    },
-    title: "For Working\nSteel\nClean",
-  },
-  {
-    image: {
-      src: poster7,
-    },
-    title: "For Working\nSteel\nClean",
-  },
-  {
-    image: {
-      src: poster8,
-    },
-    title: "For Working\nSteel\nClean",
-  },
-  {
-    image: {
-      src: poster9,
-    },
-    title: "For Working\nSteel\nClean",
-  },
+  { image: { src: poster1 }, title: "Poster 1" },
+  { image: { src: poster2 }, title: "Poster 2" },
+  { image: { src: poster3 }, title: "Poster 3" },
+  { image: { src: poster4 }, title: "Poster 4" },
+  { image: { src: poster5 }, title: "Poster 5" },
+  { image: { src: poster6 }, title: "Poster 6" },
+  { image: { src: poster7 }, title: "Poster 7" },
+  { image: { src: poster8 }, title: "Poster 8" },
+  { image: { src: poster9 }, title: "Poster 9" },
 ];
 
-// Fixed internals (no longer exposed as controls).
-const PERSPECTIVE = 1600;
-const SCALE_STEP = 0.16;
-const MAX_VISIBLE = 2;
-// In a preserve-3d context paint order follows 3D position, not z-index, so the
-// centre is pushed nearest the viewer and neighbours fall back behind it.
-const DEPTH = 240;
+const PERSPECTIVE = 1400;
+const SCALE_STEP = 0.15;
+const MAX_VISIBLE = 3;
+const DEPTH = 200;
 
-// Derive a CSS transition (duration + easing) from a Framer Transition value.
 function cssTransition(t: any): { dur: number; ease: string } {
   const dur = t && typeof t.duration === "number" ? t.duration : 0.6;
-  let ease = "cubic-bezier(0.22, 1, 0.36, 1)";
+  let ease = "cubic-bezier(0.16, 1, 0.3, 1)";
   const e = t?.ease;
   if (Array.isArray(e) && e.length === 4) {
     ease = `cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`;
-  } else if (typeof e === "string") {
-    const map: Record<string, string> = {
-      linear: "linear",
-      easeIn: "ease-in",
-      easeOut: "ease-out",
-      easeInOut: "ease-in-out",
-    };
-    ease = map[e] || "ease";
   }
   return { dur, ease };
 }
 
-/**
-• Smooth 3D Slideshow
-• A 3D coverflow: the active card sits upright in the spotlight while its
-• neighbours tilt back in perspective. Click any card to smoothly bring it to
-• centre. Recreated after Tanya Prokofieva's Framer original.
-*/
 export default function DesignGallery(props: Smooth3DSlideshowProps) {
   props = { ...COMPONENT_DEFAULTS, ...props };
   const {
     slides = DEFAULT_SLIDES,
-    cardWidth = 557,
-    cardHeight = 420,
-    radius = 0,
-    tilt = 7,
-    sideTilt = 7,
-    gap = 7,
-    opacity = 65,
+    cardWidth = 420,
+    cardHeight = 580,
+    radius = 6,
+    tilt = 15,
+    sideTilt = 6,
+    gap = 9,
+    opacity = 60,
     transition,
     autoplay = false,
     autoplayDirection = "rightToLeft",
-    showTitle = false,
+    showTitle = true,
     titleFont,
     titleColor = "#ffffff",
     titlePosition,
@@ -181,35 +113,29 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
   const isStatic = useIsStaticRenderer();
   const list = slides && slides.length ? slides : DEFAULT_SLIDES;
   const n = list.length;
-
-  // Loop is always on.
   const loop = true;
+
   const [active, setActive] = useState(0);
 
-  // Keep active valid if the slide list changes.
+  // Drag / Touch state variables
+  const isDragging = useRef(false);
+  const startX = useRef(0);
+  const dragDistance = useRef(0);
+
   useEffect(() => {
     setActive((a) => Math.max(0, Math.min(n - 1, a)));
   }, [n]);
 
-  // Lock input while a card is mid-move; release once it settles, so rapid
-  // clicks/keys don't stack up and look jittery. Duration comes from the
-  // transition (default 0.6s).
-  const moveDur =
-    transition && typeof transition.duration === "number"
-      ? transition.duration
-      : 0.6;
+  const moveDur = transition?.duration ?? 0.6;
   const lockRef = useRef(false);
+
   const lock = useCallback(() => {
     lockRef.current = true;
     if (typeof window !== "undefined") {
-      window.setTimeout(
-        () => {
-          lockRef.current = false;
-        },
-        Math.max(50, moveDur * 1000)
-      );
+      window.setTimeout(() => {
+        lockRef.current = false;
+      }, Math.max(50, moveDur * 1000));
     } else {
-      // If no window (SSR), unlock immediately.
       lockRef.current = false;
     }
   }, [moveDur]);
@@ -225,23 +151,42 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
 
   const handleCardClick = useCallback(
     (i: number) => {
-      if (isStatic || autoplay || lockRef.current) return;
+      if (isStatic || lockRef.current) return;
+      if (Math.abs(dragDistance.current) > 10) return; // Ignore drag clicks
       lock();
-      setActive((a) => (i === a ? (a + 1) % n : i));
+      setActive(i);
     },
-    [isStatic, autoplay, n, lock]
+    [isStatic, lock]
   );
 
-  // Autoplay — the transition's Delay drives the time each card holds.
-  const delay =
-    transition && typeof transition.delay === "number"
-      ? transition.delay
-      : 2.5;
+  // Drag and Swipe Handlers
+  const handleDragStart = (clientX: number) => {
+    isDragging.current = true;
+    startX.current = clientX;
+    dragDistance.current = 0;
+  };
+
+  const handleDragMove = (clientX: number) => {
+    if (!isDragging.current) return;
+    dragDistance.current = clientX - startX.current;
+  };
+
+  const handleDragEnd = () => {
+    if (!isDragging.current) return;
+    isDragging.current = false;
+    if (dragDistance.current > 40) {
+      step(-1); // Move Left
+    } else if (dragDistance.current < -40) {
+      step(1); // Move Right
+    }
+  };
+
+  // Autoplay
+  const delay = transition?.delay ?? 2.5;
   useEffect(() => {
     if (isStatic || !autoplay || n < 2) return;
     const ms = Math.max(0.3, delay) * 1000;
     const dir = autoplayDirection === "leftToRight" ? -1 : 1;
-    if (typeof window === "undefined") return undefined;
     const id = window.setInterval(() => step(dir), ms);
     return () => window.clearInterval(id);
   }, [isStatic, autoplay, autoplayDirection, delay, n, step]);
@@ -260,13 +205,8 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
   );
 
   const { dur, ease } = cssTransition(transition);
-  const transitionCss = `transform ${dur}s ${ease}, opacity ${dur}s ${ease}`;
-
-  // Rounded scale 0–20: boxy at 0, fully rounded (pill on the short axis) at 20.
-  const effectiveRadius =
-    (Math.max(0, Math.min(20, radius)) / 20) *
-    (Math.min(cardWidth, cardHeight) / 2);
-  // Inactive opacity: 100% = fully visible, 0% = hidden. Overlay is the inverse.
+  const transitionCss = `all ${dur}s ${ease}`;
+  const effectiveRadius = (Math.max(0, Math.min(20, radius)) / 20) * 16;
   const dim = 1 - Math.max(0, Math.min(100, opacity)) / 100;
 
   const rootStyle: CSSProperties = {
@@ -274,24 +214,28 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
     position: "relative",
     width: "100%",
     height: "100%",
-    minWidth: 320,
-    minHeight: 360,
+    minHeight: 620,
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
     perspective: `${PERSPECTIVE}px`,
     overflow: "hidden",
     outline: "none",
+    userSelect: "none",
+    cursor: "grab",
   };
 
   return (
-    <section className="py-24 bg-[#050505]">
-      <div className="max-w-7xl mx-auto text-center mb-16">
-        <h2 className="text-5xl font-bold text-white">Creative Design Gallery</h2>
+    <section className="py-20 bg-[#050508] relative overflow-hidden select-none">
+      {/* Dynamic Background Glow */}
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-600/10 rounded-full blur-[120px] pointer-events-none" />
 
-        <p className="mt-6 text-lg text-gray-400 max-w-3xl mx-auto">
-          Explore my premium poster designs, branding projects, social media
-          creatives, UI concepts and marketing visuals.
+      <div className="max-w-7xl mx-auto text-center mb-12 relative z-10 px-4">
+        <h2 className="text-4xl md:text-5xl font-black text-transparent bg-clip-text bg-gradient-to-r from-white via-gray-200 to-gray-500 tracking-tight">
+          Creative Design Gallery
+        </h2>
+        <p className="mt-4 text-base md:text-lg text-gray-400 max-w-2xl mx-auto font-light">
+          Explore our interactive 3D showcase. Drag or click to inspect artwork.
         </p>
       </div>
 
@@ -301,6 +245,13 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
         role="group"
         aria-roledescription="carousel"
         onKeyDown={isStatic ? undefined : onKeyDown}
+        onMouseDown={(e) => handleDragStart(e.clientX)}
+        onMouseMove={(e) => handleDragMove(e.clientX)}
+        onMouseUp={handleDragEnd}
+        onMouseLeave={handleDragEnd}
+        onTouchStart={(e) => handleDragStart(e.touches[0].clientX)}
+        onTouchMove={(e) => handleDragMove(e.touches[0].clientX)}
+        onTouchEnd={handleDragEnd}
       >
         <div
           style={{
@@ -319,9 +270,8 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
             const ax = Math.abs(rel);
             const visible = ax <= MAX_VISIBLE;
             const isActive = rel === 0;
-            const sc = Math.max(0.4, 1 - ax * SCALE_STEP);
-            // Gap 0–20 → spacing 0 (stacked) to ~600px (far apart).
-            const tx = rel * (gap * 30);
+            const sc = Math.max(0.35, 1 - ax * SCALE_STEP);
+            const tx = rel * (gap * 28);
             const tz = -ax * DEPTH;
             const ry = -rel * tilt;
             const rz = rel * sideTilt;
@@ -333,17 +283,22 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
               top: "50%",
               width: cardWidth,
               height: cardHeight,
-              borderRadius: effectiveRadius,
+              borderRadius: `${effectiveRadius}px`,
               overflow: "hidden",
               transformStyle: "preserve-3d",
               transformOrigin: "center center",
               transform: `translate(-50%, -50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sc})`,
               transition: transitionCss,
               opacity: visible ? 1 : 0,
-              cursor: autoplay || isActive ? "default" : "pointer",
-              pointerEvents:
-                visible && !isStatic && !autoplay ? "auto" : "none",
-              backgroundColor: "#1a1a1a",
+              cursor: isActive ? "default" : "pointer",
+              pointerEvents: visible && !isStatic ? "auto" : "none",
+              backgroundColor: "#0d0d12",
+              boxShadow: isActive
+                ? "0 25px 50px -12px rgba(0, 0, 0, 0.7), 0 0 30px rgba(255, 255, 255, 0.1)"
+                : "0 10px 30px -10px rgba(0, 0, 0, 0.5)",
+              border: isActive
+                ? "1px solid rgba(255, 255, 255, 0.2)"
+                : "1px solid rgba(255, 255, 255, 0.05)",
             };
 
             return (
@@ -355,72 +310,80 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
                 aria-hidden={!visible}
               >
                 {src ? (
-                  <img
-                    src={src}
-                    alt={slide.image?.alt || slide.title || ""}
-                    draggable={false}
-                    style={{
-                      position: "absolute",
-                      inset: 0,
-                      width: "100%",
-                      height: "100%",
-                      objectFit: "cover",
-                      display: "block",
-                      userSelect: "none",
-                    }}
-                  />
+                  <div className="relative w-full h-full flex items-center justify-center bg-[#0a0a0f] overflow-hidden">
+                    {/* Blurred Image Background Fill to prevent empty spaces */}
+                    <img
+                      src={src}
+                      alt=""
+                      className="absolute inset-0 w-full h-full object-cover opacity-30 blur-xl scale-110 pointer-events-none"
+                    />
+
+                    {/* Actual Main Image with Complete Display */}
+                    <img
+                      src={src}
+                      alt={slide.image?.alt || slide.title || ""}
+                      draggable={false}
+                      style={{
+                        maxWidth: "100%",
+                        maxHeight: "100%",
+                        width: "auto",
+                        height: "auto",
+                        objectFit: "contain",
+                        position: "relative",
+                        zIndex: 2,
+                        userSelect: "none",
+                        filter: isActive ? "brightness(1)" : "brightness(0.7)",
+                        transition: "filter 0.5s ease",
+                      }}
+                    />
+                  </div>
                 ) : null}
 
-                {showTitle && (
-                  <>
-                    {/* Gradient for legibility (matches corner) */}
+                {showTitle && slide.title && (
+                  <div className="z-10 absolute inset-0 pointer-events-none">
                     <div
                       style={{
                         position: "absolute",
                         inset: 0,
                         background: isTop
-                          ? "linear-gradient(0deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.7) 100%)"
-                          : "linear-gradient(180deg, rgba(0,0,0,0) 35%, rgba(0,0,0,0.7) 100%)",
-                        pointerEvents: "none",
+                          ? "linear-gradient(0deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%)"
+                          : "linear-gradient(180deg, rgba(0,0,0,0) 40%, rgba(0,0,0,0.85) 100%)",
                       }}
                     />
-
-                    {/* Title at chosen corner */}
                     <div
                       style={{
                         position: "absolute",
                         left: padLeft,
                         right: padRight,
-                        [isTop ? "top" : "bottom"]: isTop
-                          ? padTop
-                          : padBottom,
+                        [isTop ? "top" : "bottom"]: isTop ? padTop : padBottom,
                         textAlign: isRight ? "right" : "left",
-                        pointerEvents: "none",
                       }}
                     >
                       <span
                         style={{
                           color: titleColor,
-                          fontSize: 28,
+                          fontSize: "30px",
                           fontWeight: 700,
-                          lineHeight: "1.1em",
-                          letterSpacing: "-0.02em",
+                          lineHeight: "1.2em",
+                          letterSpacing: "0.02em",
                           whiteSpace: "pre-line",
-                          textShadow: "0 2px 10px rgba(0,0,0,0.4)",
+                          textShadow: "0 4px 12px rgba(0,0,0,0.8)",
+                          fontFamily: "'Vaporize', 'Inter', sans-serif",
                           ...(titleFont || {}),
                         }}
                       >
                         {slide.title}
                       </span>
                     </div>
-                  </>
+                  </div>
                 )}
 
-                {/* Dim overlay (darkens inactive cards entirely) */}
+                {/* Dark Dimming Layer for Inactive Cards */}
                 <div
                   style={{
                     position: "absolute",
                     inset: 0,
+                    zIndex: 3,
                     background: "#000000",
                     opacity: isActive ? 0 : dim,
                     transition: `opacity ${dur}s ${ease}`,
@@ -437,68 +400,13 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
 }
 
 const COMPONENT_DEFAULTS: Smooth3DSlideshowProps = {
-  slides: [
-    {
-      image: {
-        src: poster1,
-      },
-      title: "Poster 1",
-    },
-    {
-      image: {
-        src: poster2,
-      },
-      title: "Poster 2",
-    },
-    {
-      image: {
-        src: poster3,
-      },
-      title: "Poster 3",
-    },
-    {
-      image: {
-        src: poster4,
-      },
-      title: "Poster 4",
-    },
-    {
-      image: {
-        src: poster5,
-      },
-      title: "Poster 5",
-    },
-    {
-      image: {
-        src: poster6,
-      },
-      title: "Poster 6",
-    },
-    {
-      image: {
-        src: poster7,
-      },
-      title: "Poster 7",
-    },
-    {
-      image: {
-        src: poster8,
-      },
-      title: "Poster 8",
-    },
-    {
-      image: {
-        src: poster9,
-      },
-      title: "Poster 9",
-    },
-  ],
-  cardWidth: 400,
-  cardHeight: 400,
-  radius: 3,
-  tilt: 12,
-  sideTilt: 8,
-  gap: 8,
+  slides: DEFAULT_SLIDES,
+  cardWidth: 420,
+  cardHeight: 580,
+  radius: 6,
+  tilt: 15,
+  sideTilt: 6,
+  gap: 9,
   opacity: 60,
   autoplay: false,
   autoplayDirection: "rightToLeft",
@@ -506,15 +414,13 @@ const COMPONENT_DEFAULTS: Smooth3DSlideshowProps = {
     type: "tween",
     duration: 0.6,
     delay: 2.5,
-    ease: [0.22, 1, 0.36, 1],
+    ease: [0.16, 1, 0.3, 1],
   },
   showTitle: true,
   titleFont: {
-    fontFamily: "Inter, system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', Arial",
+    fontFamily: "'Vaporize', sans-serif",
     fontWeight: 700,
-    fontSize: "28px",
-    letterSpacing: "-0.02em",
-    lineHeight: "1.1em",
+    fontSize: "30px",
   } as CSSProperties,
   titleColor: "#ffffff",
   titlePosition: {
@@ -525,3 +431,4 @@ const COMPONENT_DEFAULTS: Smooth3DSlideshowProps = {
     paddingBottom: 24,
   },
 };
+
