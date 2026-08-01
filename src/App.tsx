@@ -9,7 +9,7 @@ import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import WebDesigns from "./components/WebDesigns";
-import WebGallery from "./components/WebGallery";
+import DesignGallery from "./components/DesignGallery";
 import Services from "./components/Services";
 import DriveHub from "./components/DriveHub";
 import Testimonials from "./components/Testimonials";
@@ -124,7 +124,7 @@ export default function App() {
             <Skills />
             <Projects />
             <WebDesigns />
-            <WebGallery />
+            <DesignGallery />
             <Services />
             <DriveHub />
             <Testimonials />
