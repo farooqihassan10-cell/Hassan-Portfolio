@@ -13,13 +13,13 @@ import poster8 from "../assets/images/poster8.png";
 import poster9 from "../assets/images/poster9.png";
 
 
-import {
+import React, {
 useState,
 useEffect,
 useCallback,
 useRef,
 type CSSProperties,
-} from "react"
+} from "react";
 const useIsStaticRenderer = () => false
 
 interface Slide {
@@ -126,7 +126,7 @@ const dur = t && typeof t.duration === "number" ? t.duration : 0.6
 let ease = "cubic-bezier(0.22, 1, 0.36, 1)"
 const e = t?.ease
 if (Array.isArray(e) && e.length === 4) {
-ease = 'cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})
+ease = `cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})`
 } else if (typeof e === "string") {
 const map: Record<string, string> = {
 linear: "linear",
@@ -255,7 +255,7 @@ step(-1)
 )
 
 const { dur, ease } = cssTransition(transition)
-const transitionCss = 'transform ${dur}s ${ease}, opacity ${dur}s ${ease}
+const transitionCss = `transform ${dur}s ${ease}, opacity ${dur}s ${ease}`
 
 // Rounded scale 0–20: boxy at 0, fully rounded (pill on the short axis) at 20.
 const effectiveRadius =
@@ -274,7 +274,7 @@ minHeight: 360,
 display: "flex",
 alignItems: "center",
 justifyContent: "center",
-perspective: '${PERSPECTIVE}px`,
+perspective: `${PERSPECTIVE}px`,
 overflow: "hidden",
 outline: "none",
 }
@@ -425,7 +425,7 @@ position: "absolute",
 inset: 0,
 background: "#000000",
 opacity: isActive ? 0 : dim,
-transition: 'opacity ${dur}s ${ease},
+transition: `opacity ${dur}s ${ease}`,
 pointerEvents: "none",
 }}
 />
