@@ -9,6 +9,7 @@ import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import WebDesigns from "./components/WebDesigns";
+import WebGallery from "./components/WebGallery";
 import Services from "./components/Services";
 import DriveHub from "./components/DriveHub";
 import Testimonials from "./components/Testimonials";
@@ -107,6 +108,7 @@ export default function App() {
       {isLoading ? (
         <Loader onComplete={() => setIsLoading(false)} />
       ) : (
+      
         <div className="relative min-h-screen bg-[#050505] text-white overflow-hidden transform-gpu select-none">
           
           {/* Custom Cursor elements */}
@@ -122,6 +124,7 @@ export default function App() {
             <Skills />
             <Projects />
             <WebDesigns />
+            <WebGallery />
             <Services />
             <DriveHub />
             <Testimonials />
