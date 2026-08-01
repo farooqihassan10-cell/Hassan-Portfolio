@@ -280,6 +280,18 @@ outline: "none",
 }
 
 return (
+<section className="py-24 bg-[#050505]">
+
+  <div className="max-w-7xl mx-auto text-center mb-16">
+    <h2 className="text-5xl font-bold text-white">
+      Creative Design Gallery
+    </h2>
+
+    <p className="mt-6 text-lg text-gray-400 max-w-3xl mx-auto">
+      Explore my premium poster designs, branding projects,
+      social media creatives, UI concepts and marketing visuals.
+    </p>
+  </div>2
 <div
 style={rootStyle}
 tabIndex={0}
@@ -422,6 +434,7 @@ pointerEvents: "none",
 })}
 </div>
 </div>
+</section>
 )
 }
 
@@ -429,33 +442,57 @@ const COMPONENT_DEFAULTS = {
 slides: [
 {
 image: {
-src: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/7d4d2641-d6a8-4fef-e85c-b12ed100d500/w=800",
+src: poster1,
 },
-title: "James Walker",
-},
-{
-image: {
-src: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/933a7615-f4b6-4eae-8ed1-705fa0e24400/w=800",
-},
-title: "Olivia Carter",
+title: "Poster 1",
 },
 {
 image: {
-src: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/859c75ea-953e-489e-be61-91a03a35d700/w=800",
+src: poster2,
 },
-title: "Amelia Foster",
-},
-{
-image: {
-src: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/31afae9c-5ba3-4ec3-2534-ed8198ed1100/w=800",
-},
-title: "Benjamin Harris",
+title: "Poster 2",
 },
 {
 image: {
-src: "https://imagedelivery.net/IEUjvl3YUlxY-MrTpOAWDQ/ed7b1c40-3332-43d8-a9eb-4615ef341b00/w=800",
+src: poster3,
 },
-title: "Lucas Martin",
+title: "Poster 3",
+},
+{
+image: {
+src: poster4,
+},
+title: "Poster 4",
+},
+{
+image: {
+src: poster5,
+},
+title: "Poster 5",
+},
+{
+  image: {
+    src: poster6,
+},
+  title: "Poster 6",
+},
+  {
+  image: {
+    src: poster7,
+  },
+  title: "Poster 7",
+},
+  {
+  image: {
+    src: poster8,
+  },
+  title: "Poster 8",
+},
+  {
+  image: {
+    src: poster9,
+  },
+  title: "Poster 9",
 },
  ],
 cardWidth: 400,
