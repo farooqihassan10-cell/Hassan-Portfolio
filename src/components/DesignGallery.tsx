@@ -126,7 +126,7 @@ const dur = t && typeof t.duration === "number" ? t.duration : 0.6
 let ease = "cubic-bezier(0.22, 1, 0.36, 1)"
 const e = t?.ease
 if (Array.isArray(e) && e.length === 4) {
-ease = cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})
+ease = 'cubic-bezier(${e[0]}, ${e[1]}, ${e[2]}, ${e[3]})
 } else if (typeof e === "string") {
 const map: Record<string, string> = {
 linear: "linear",
@@ -255,7 +255,7 @@ step(-1)
 )
 
 const { dur, ease } = cssTransition(transition)
-const transitionCss = transform ${dur}s ${ease}, opacity ${dur}s ${ease}
+const transitionCss = 'transform ${dur}s ${ease}, opacity ${dur}s ${ease}
 
 // Rounded scale 0–20: boxy at 0, fully rounded (pill on the short axis) at 20.
 const effectiveRadius =
@@ -274,7 +274,7 @@ minHeight: 360,
 display: "flex",
 alignItems: "center",
 justifyContent: "center",
-perspective: ${PERSPECTIVE}px`,
+perspective: '${PERSPECTIVE}px`,
 overflow: "hidden",
 outline: "none",
 }
@@ -291,7 +291,7 @@ return (
       Explore my premium poster designs, branding projects,
       social media creatives, UI concepts and marketing visuals.
     </p>
-  </div>2
+  </div>
 <div
 style={rootStyle}
 tabIndex={0}
@@ -334,7 +334,7 @@ borderRadius: effectiveRadius,
 overflow: "hidden",
 transformStyle: "preserve-3d",
 transformOrigin: "center center",
-transform: translate(-50%, -50%) translateX(${tx}px) translateZ( {ry}deg) rotateZ( {sc})`,
+transform: `translate(-50%, -50%) translateX(${tx}px) translateZ(${tz}px) rotateY(${ry}deg) rotateZ(${rz}deg) scale(${sc})`,
 transition: transitionCss,
 opacity: visible ? 1 : 0,
 cursor: autoplay || isActive ? "default" : "pointer",
@@ -425,7 +425,7 @@ position: "absolute",
 inset: 0,
 background: "#000000",
 opacity: isActive ? 0 : dim,
-transition: opacity ${dur}s ${ease},
+transition: 'opacity ${dur}s ${ease},
 pointerEvents: "none",
 }}
 />
