@@ -327,7 +327,7 @@ export default function NotFoundPage() {
       {/* ---------------- IMAGE 2 (Web Link) ---------------- */}
       <div className="relative overflow-hidden group border border-zinc-800">
         <img
-          src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop" // <-- Yahan Doosra Direct Image Link Aayega (e.g. i.pinimg.com link)
+          src="https://share.google/23jj95cBjA9iTPusL" // <-- Yahan Doosra Direct Image Link Aayega (e.g. i.pinimg.com link)
           alt="Angel Archive 2"
           className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
         />
@@ -337,7 +337,7 @@ export default function NotFoundPage() {
       {/* ---------------- IMAGE 3 (Web Link) ---------------- */}
       <div className="relative overflow-hidden group border border-zinc-800">
         <img
-          src="https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=600&auto=format&fit=crop" // <-- Yahan Teesra Direct Image Link Aayega
+          src="https://share.google/144UyaKcG62Va14o6" // <-- Yahan Teesra Direct Image Link Aayega
           alt="Angel Archive 3"
           className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
         />
