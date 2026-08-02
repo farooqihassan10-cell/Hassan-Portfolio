@@ -6,7 +6,7 @@ export default function NotFoundPage() {
   const [gameState, setGameState] = useState<"IDLE" | "PLAYING" | "WON" | "LOST">("IDLE");
   const [score, setScore] = useState(0);
 
-  // Retro Sci-Fi Audio Synthesizer (No external sound files required)
+  // Retro Sci-Fi Audio Synthesizer
   const playSound = (freq: number, type: OscillatorType = "sine", duration = 0.1) => {
     try {
       const ctx = new (window.AudioContext || (window as any).webkitAudioContext)();
@@ -25,8 +25,43 @@ export default function NotFoundPage() {
     }
   };
 
+  // Player position state ref to sync with both Keyboard & Mobile Touch Controls
+  const playerRef = useRef({ col: 0, row: 3 });
+
+  // Control Handlers (Shared between Keyboard & Mobile UI Buttons)
+  const moveUp = () => {
+    if (playerRef.current.row > 0) {
+      playerRef.current.row -= 1;
+      playSound(440, "triangle");
+    }
+  };
+
+  const moveDown = () => {
+    if (playerRef.current.row < 6) { // 7 rows total (0 to 6)
+      playerRef.current.row += 1;
+      playSound(440, "triangle");
+    }
+  };
+
+  const moveLeft = () => {
+    if (playerRef.current.col > 0) {
+      playerRef.current.col -= 1;
+      playSound(350, "triangle");
+    }
+  };
+
+  const moveRight = () => {
+    if (playerRef.current.col < 11) { // 12 cols total (0 to 11)
+      playerRef.current.col += 1;
+      playSound(520, "triangle");
+    }
+  };
+
   useEffect(() => {
     if (gameState !== "PLAYING") return;
+
+    // Reset player position when starting game
+    playerRef.current = { col: 0, row: 3 };
 
     const canvas = canvasRef.current;
     if (!canvas) return;
@@ -42,8 +77,6 @@ export default function NotFoundPage() {
     const colWidth = gridWidth / cols;
     const rowHeight = gridHeight / rows;
 
-    let player = { col: 0, row: 3 };
-
     const streams = Array.from({ length: cols - 2 }, (_, i) => {
       const colIndex = i + 1;
       return {
@@ -57,19 +90,10 @@ export default function NotFoundPage() {
     });
 
     const handleKeyDown = (e: KeyboardEvent) => {
-      if (e.key === "ArrowUp" || e.key === "w" || e.key === "W") {
-        if (player.row > 0) player.row -= 1;
-        playSound(440, "triangle");
-      } else if (e.key === "ArrowDown" || e.key === "s" || e.key === "S") {
-        if (player.row < rows - 1) player.row += 1;
-        playSound(440, "triangle");
-      } else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") {
-        if (player.col > 0) player.col -= 1;
-        playSound(350, "triangle");
-      } else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") {
-        if (player.col < cols - 1) player.col += 1;
-        playSound(520, "triangle");
-      }
+      if (e.key === "ArrowUp" || e.key === "w" || e.key === "W") moveUp();
+      else if (e.key === "ArrowDown" || e.key === "s" || e.key === "S") moveDown();
+      else if (e.key === "ArrowLeft" || e.key === "a" || e.key === "A") moveLeft();
+      else if (e.key === "ArrowRight" || e.key === "d" || e.key === "D") moveRight();
     };
 
     window.addEventListener("keydown", handleKeyDown);
@@ -94,7 +118,7 @@ export default function NotFoundPage() {
         ctx.stroke();
       }
 
-      // Target Node
+      // Target Nodes
       const targetX = (cols - 1) * colWidth + colWidth / 2;
       ctx.strokeStyle = "#00f0ff";
       ctx.lineWidth = 2;
@@ -105,12 +129,14 @@ export default function NotFoundPage() {
         ctx.stroke();
       }
 
-      // Obstacles (Firewall Streams)
+      // Firewall Obstacles
       ctx.fillStyle = "#ff2a4b";
       ctx.shadowColor = "#ff2a4b";
       ctx.shadowBlur = 12;
 
       let hit = false;
+      const player = playerRef.current;
+
       streams.forEach((stream) => {
         const x = stream.col * colWidth;
         stream.blocks.forEach((block) => {
@@ -134,7 +160,7 @@ export default function NotFoundPage() {
 
       ctx.shadowBlur = 0;
 
-      // Player Node
+      // Player Node Glow
       const px = player.col * colWidth + colWidth / 2;
       const py = player.row * rowHeight + rowHeight / 2;
 
@@ -146,6 +172,7 @@ export default function NotFoundPage() {
       ctx.fill();
       ctx.shadowBlur = 0;
 
+      // Win Condition
       if (player.col === cols - 1) {
         playSound(880, "sine", 0.4);
         setScore((prev) => prev + 100);
@@ -153,6 +180,7 @@ export default function NotFoundPage() {
         return;
       }
 
+      // Collision Loss Condition
       if (hit) {
         playSound(150, "sawtooth", 0.3);
         setGameState("LOST");
@@ -193,20 +221,20 @@ export default function NotFoundPage() {
         </div>
       </header>
 
-      {/* MAIN SCREEN */}
+      {/* MAIN CONTENT */}
       <main className="relative z-10 my-auto flex flex-col items-center justify-center text-center">
-        <h1 className="text-7xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 via-cyan-500 to-cyan-950 tracking-tighter drop-shadow-[0_0_35px_rgba(0,240,255,0.4)]">
+        <h1 className="text-6xl md:text-9xl font-black text-transparent bg-clip-text bg-gradient-to-b from-cyan-300 via-cyan-500 to-cyan-950 tracking-tighter drop-shadow-[0_0_35px_rgba(0,240,255,0.4)]">
           404
         </h1>
-        <h2 className="text-xl md:text-2xl font-bold tracking-[0.3em] text-cyan-200 mt-1 uppercase">
+        <h2 className="text-lg md:text-2xl font-bold tracking-[0.3em] text-cyan-200 mt-1 uppercase">
           Page Not Found
         </h2>
-        <p className="text-xs md:text-sm text-cyan-600/80 mt-2 max-w-xl tracking-widest uppercase">
+        <p className="text-[10px] md:text-sm text-cyan-600/80 mt-1 max-w-xl tracking-widest uppercase">
           [ The page you are looking for does not exist, but the system is still online ]
         </p>
 
-        {/* GAME CONTAINER */}
-        <div className="relative mt-6 p-1 border border-cyan-500/30 rounded-lg bg-black/60 backdrop-blur-md shadow-[0_0_50px_rgba(0,240,255,0.1)] max-w-4xl w-full">
+        {/* HUD GAME CONTAINER */}
+        <div className="relative mt-4 p-1 border border-cyan-500/30 rounded-lg bg-black/60 backdrop-blur-md shadow-[0_0_50px_rgba(0,240,255,0.1)] max-w-4xl w-full">
           <div className="absolute -top-2 -left-2 w-4 h-4 border-t-2 border-l-2 border-cyan-400" />
           <div className="absolute -top-2 -right-2 w-4 h-4 border-t-2 border-r-2 border-cyan-400" />
           <div className="absolute -bottom-2 -left-2 w-4 h-4 border-b-2 border-l-2 border-cyan-400" />
@@ -227,11 +255,11 @@ export default function NotFoundPage() {
 
             {gameState === "IDLE" && (
               <div className="absolute inset-0 bg-black/85 flex flex-col items-center justify-center p-6 text-center">
-                <h3 className="text-2xl md:text-3xl font-black text-cyan-300 tracking-wider mb-2">
+                <h3 className="text-xl md:text-3xl font-black text-cyan-300 tracking-wider mb-2">
                   BUILD MIND // HACK MINI-GAME
                 </h3>
-                <p className="text-xs md:text-sm text-cyan-500/80 max-w-md mb-6">
-                  No Internet no issue. Play game, Build your mind and enjoy! Navigate your signal node across the firewall streams to reach the target node.
+                <p className="text-[11px] md:text-sm text-cyan-500/80 max-w-md mb-6">
+                  No Internet no issue. Play game, Build your mind and enjoy! Navigate your signal node across the firewall streams.
                 </p>
                 <button
                   onClick={startGame}
@@ -244,7 +272,7 @@ export default function NotFoundPage() {
 
             {gameState === "WON" && (
               <div className="absolute inset-0 bg-cyan-950/90 flex flex-col items-center justify-center p-6 text-center">
-                <h3 className="text-3xl font-bold text-cyan-300 tracking-widest mb-2">
+                <h3 className="text-2xl md:text-3xl font-bold text-cyan-300 tracking-widest mb-2">
                   ACCESS GRANTED!
                 </h3>
                 <p className="text-xs text-cyan-400 mb-6">Target Node Reached. Mind Capacity Built.</p>
@@ -259,7 +287,7 @@ export default function NotFoundPage() {
 
             {gameState === "LOST" && (
               <div className="absolute inset-0 bg-red-950/90 flex flex-col items-center justify-center p-6 text-center">
-                <h3 className="text-3xl font-bold text-red-400 tracking-widest mb-2">
+                <h3 className="text-2xl md:text-3xl font-bold text-red-400 tracking-widest mb-2">
                   SIGNAL INTERCEPTED
                 </h3>
                 <p className="text-xs text-red-300/80 mb-6">Firewall block detected your connection.</p>
@@ -273,21 +301,55 @@ export default function NotFoundPage() {
             )}
           </div>
 
-          <div className="flex flex-wrap justify-between items-center px-4 py-3 bg-cyan-950/20 text-[10px] md:text-xs text-cyan-500/80 border-t border-cyan-500/20">
-            <div>// CONTROLS: <span className="text-cyan-300">[W, A, S, D]</span> or <span className="text-cyan-300">[ARROW KEYS]</span> TO MOVE</div>
-            <div>// OBJECTIVE: REACH THE RIGHTMOST TARGET NODE</div>
+          {/* CONTROLS HUD & ON-SCREEN TOUCH D-PAD FOR MOBILE */}
+          <div className="p-3 bg-cyan-950/20 border-t border-cyan-500/20 flex flex-col items-center gap-2">
+            <div className="text-[10px] md:text-xs text-cyan-500/80">
+              // CONTROLS: <span className="text-cyan-300">[WASD / ARROWS]</span> OR USE BUTTONS BELOW
+            </div>
+
+            {/* MOBILE ON-SCREEN ARROW BUTTONS */}
+            {gameState === "PLAYING" && (
+              <div className="flex flex-col items-center gap-1 my-1">
+                <button
+                  onClick={moveUp}
+                  className="w-12 h-10 bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 rounded active:bg-cyan-400 active:text-black flex items-center justify-center text-lg font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]"
+                >
+                  ▲
+                </button>
+                <div className="flex gap-4">
+                  <button
+                    onClick={moveLeft}
+                    className="w-12 h-10 bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 rounded active:bg-cyan-400 active:text-black flex items-center justify-center text-lg font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]"
+                  >
+                    ◄
+                  </button>
+                  <button
+                    onClick={moveDown}
+                    className="w-12 h-10 bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 rounded active:bg-cyan-400 active:text-black flex items-center justify-center text-lg font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]"
+                  >
+                    ▼
+                  </button>
+                  <button
+                    onClick={moveRight}
+                    className="w-12 h-10 bg-cyan-500/20 border border-cyan-400/50 text-cyan-300 rounded active:bg-cyan-400 active:text-black flex items-center justify-center text-lg font-bold shadow-[0_0_10px_rgba(0,240,255,0.2)]"
+                  >
+                    ►
+                  </button>
+                </div>
+              </div>
+            )}
           </div>
         </div>
 
-        <p className="mt-4 text-xs tracking-[0.2em] text-cyan-600/70 uppercase">
-          «« No Internet Connection Detected — Enjoy The Game While You're Offline »»
+        <p className="mt-3 text-[10px] md:text-xs tracking-[0.2em] text-cyan-600/70 uppercase">
+          «« No Internet Connection - Build Your Mind & Enjoy »»
         </p>
 
-        {/* NAVIGATION */}
-        <div className="flex flex-wrap gap-4 mt-6">
+        {/* NAVIGATION BUTTON */}
+        <div className="mt-4">
           <a
             href="/"
-            className="px-6 py-2.5 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 transition-all rounded text-xs tracking-widest uppercase flex items-center gap-2"
+            className="px-6 py-2 border border-cyan-500/40 text-cyan-400 hover:bg-cyan-500/10 hover:border-cyan-400 transition-all rounded text-xs tracking-widest uppercase inline-flex items-center gap-2"
           >
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
@@ -298,9 +360,9 @@ export default function NotFoundPage() {
       </main>
 
       {/* FOOTER */}
-      <footer className="relative z-10 flex justify-between items-center border-t border-cyan-500/10 pt-4 text-[10px] text-cyan-700">
+      <footer className="relative z-10 flex justify-between items-center border-t border-cyan-500/10 pt-3 text-[10px] text-cyan-700">
         <div>STATUS: SYSTEM FUNCTIONAL</div>
-        <div>IP TRACE: ---.---.---.---</div>
+        <div>MOBILE TOUCH: READY</div>
       </footer>
     </div>
   );
