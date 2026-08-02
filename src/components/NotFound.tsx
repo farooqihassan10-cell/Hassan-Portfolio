@@ -244,9 +244,19 @@ export default function NotFoundPage() {
       ) : (
         /* ---------------- STAGE 2: RETRO OS DESKTOP ---------------- */
         <div className="min-h-screen flex flex-col justify-between bg-black relative overflow-hidden">
-          {/* Wallpaper (High Contrast Monochrome Glitch) */}
-          <div className="absolute inset-0 bg-[radial-gradient(circle_at_top,_var(--tw-gradient-stops))] from-zinc-800 via-zinc-950 to-black opacity-90" />
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
+          /* ---------------- STAGE 2: RETRO OS DESKTOP ---------------- */
+<div className="min-h-screen flex flex-col justify-between bg-black relative overflow-hidden">
+  
+  {/* Wallpaper: Aap ki Custom Background Image */}
+  <div 
+    className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 grayscale contrast-125 pointer-events-none"
+    style={{ 
+      backgroundImage: `url('https://i.pinimg.com/originals/xx/xx/xx/your-image.jpg')` // <-- Yahan Direct Image URL dein
+    }}
+  />
+
+  {/* Grid Lines Overlay (Retro 90s Grid Effect) */}
+  <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
 
           {/* DESKTOP ICONS GRID */}
           <div className="relative z-10 p-6 grid grid-cols-3 md:grid-cols-7 gap-6 max-w-4xl">
