@@ -104,7 +104,7 @@ export default function App() {
       {isLoading ? (
         <Loader onComplete={() => setIsLoading(false)} />
       ) : (
-        <div className="relative min-h-screen bg-[#050505] text-white overflow-hidden transform-gpu select-none">
+        <div className="relative min-h-screen bg-[#050505] text-[#ffffff] overflow-hidden transform-gpu select-none">
           {/* Custom Cursor elements */}
           <div
             id="custom-cursor"
@@ -132,66 +132,6 @@ export default function App() {
           </main>
 
           <Footer />
-        </div>
-      )}
-    </>
-  );
-}
-        <Loader onComplete={() => setIsLoading(false)} />
-      ) : (
-      
-        <div className="relative min-h-screen bg-[#050505] text-white overflow-hidden transform-gpu select-none">
-          
-          {/* Custom Cursor elements */}
-          <div id="custom-cursor" className="hidden md:block pointer-events-none transform-gpu" />
-          <div id="custom-cursor-magnetic" className="hidden md:block pointer-events-none transform-gpu" />
-
-          {/* Core Layout Structure */}
-          <Navbar />
-          
-          <main>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            
-            {/* Design Gallery positioned before Web Designs */}
-            <DesignGallery /> 
-            
-            <WebDesigns />
-            <Services />
-            <DriveHub />
-            <Testimonials />
-            <Contact />
-          </main>
-          
-          <Footer />
-
-        </div>
-      )}
-    </>
-  );
-}
-          <div id="custom-cursor-magnetic" className="hidden md:block pointer-events-none transform-gpu" />
-
-          {/* Core Layout Structure */}
-          <Navbar />
-          
-          <main>
-            <Hero />
-            <About />
-            <Skills />
-            <Projects />
-            <WebDesigns />
-            <DesignGallery />
-            <Services />
-            <DriveHub />
-            <Testimonials />
-            <Contact />
-          </main>
-          
-          <Footer />
-
         </div>
       )}
     </>
