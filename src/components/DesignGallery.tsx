@@ -1,4 +1,4 @@
-// Coverflow Gallery — Fixed Syntax & Image Imports
+// Coverflow Gallery — Fixed Syntax, Images & Vaporize Typography
 "use client"
 import React, {
   useState,
@@ -109,9 +109,9 @@ const COMPONENT_DEFAULTS: Smooth3DSlideshowProps = {
   },
   showTitle: true,
   titleFont: {
-    fontFamily: "'Vaporize', sans-serif",
-    fontWeight: 700,
-    fontSize: "30px",
+    fontFamily: "'Cinzel Decorative', 'Orbitron', sans-serif",
+    fontWeight: 900,
+    fontSize: "28px",
   } as CSSProperties,
   titleColor: "#ffffff",
   titlePosition: {
@@ -138,7 +138,6 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
     autoplay = false,
     autoplayDirection = "rightToLeft",
     showTitle = true,
-    titleFont,
     titleColor = "#ffffff",
     titlePosition,
     style,
@@ -395,19 +394,7 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
                         textAlign: isRight ? "right" : "left",
                       }}
                     >
-                      <span
-                        style={{
-                          color: titleColor,
-                          fontSize: "30px",
-                          fontWeight: 700,
-                          lineHeight: "1.2em",
-                          letterSpacing: "0.02em",
-                          whiteSpace: "pre-line",
-                          textShadow: "0 4px 12px rgba(0,0,0,0.8)",
-                          fontFamily: "'Vaporize', 'Inter', sans-serif",
-                          ...(titleFont || {}),
-                        }}
-                      >
+                      <span className="vaporize-title text-2xl md:text-3xl block select-none">
                         {slide.title}
                       </span>
                     </div>
@@ -433,4 +420,3 @@ export default function DesignGallery(props: Smooth3DSlideshowProps) {
     </section>
   );
 }
-
