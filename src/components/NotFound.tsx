@@ -302,7 +302,7 @@ export default function NotFoundPage() {
 
                   {/* Window Content */}
                   <div className="p-4 overflow-y-auto max-h-[70vh] text-xs">
-                    {/* FAKEAMP MUSIC PLAYER */}
+                    {/* FAKEAMP MUSIC PLAYER WITH REAL AUDIO */}
                     {win.id === "Fakeamp" && <FakeampPlayer playSound={playSound} />}
 
                     {/* CONSOLE TERMINAL */}
@@ -369,7 +369,7 @@ export default function NotFoundPage() {
                     )}
 
                     {/* LIMBO GAME (CLICK ME) */}
-                    {win.id === "CLICK ME" && <LimboGameRunner playSound={playSound} />}
+                    {win.id === "DON'T CLICK" && <LimboGameRunner playSound={playSound} />}
                   </div>
                 </div>
               )
@@ -422,20 +422,55 @@ export default function NotFoundPage() {
 }
 
 /* ====================================================================
-   SUB-COMPONENT 1: FAKEAMP MUSIC PLAYER (WINAMP STYLE)
+   SUB-COMPONENT 1: FAKEAMP MUSIC PLAYER (WITH REAL AUDIO LINKS)
 ==================================================================== */
 function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
+  const audioRef = useRef<HTMLAudioElement | null>(null);
 
+  // Custom Audio Songs List
   const playlist = [
-    { title: "akiauara, LONOWN - Black n White", duration: "3:12" },
-    { title: "akiauara, LONOWN - Deathwish", duration: "4:48" },
-    { title: "akiauara, LONOWN - Recrush", duration: "0:31" },
+    { 
+      title: "akiauara, LONOWN - Black n White", 
+      duration: "3:12",
+      src: "https://cdn.pixabay.com/download/audio/2022/05/27/audio_1808fbf07a.mp3?filename=cyberpunk-2099-10701.mp3" 
+    },
+    { 
+      title: "akiauara, LONOWN - Deathwish", 
+      duration: "4:48",
+      src: "https://cdn.pixabay.com/download/audio/2022/03/15/audio_c8c8a73467.mp3?filename=dark-ambient-10884.mp3" 
+    },
+    { 
+      title: "akiauara, LONOWN - Recrush", 
+      duration: "0:31",
+      src: "https://cdn.pixabay.com/download/audio/2021/08/09/audio_8841a123eb.mp3?filename=dark-engine-loop-10330.mp3" 
+    },
   ];
+
+  useEffect(() => {
+    if (audioRef.current) {
+      if (isPlaying) {
+        audioRef.current.play().catch(() => setIsPlaying(false));
+      } else {
+        audioRef.current.pause();
+      }
+    }
+  }, [isPlaying, trackIndex]);
+
+  const togglePlay = () => {
+    playSound("click");
+    setIsPlaying(!isPlaying);
+  };
 
   return (
     <div className="bg-zinc-900 border-2 border-zinc-600 p-2 text-white font-mono space-y-2 shadow-inner">
+      <audio
+        ref={audioRef}
+        src={playlist[trackIndex].src}
+        onEnded={() => setTrackIndex((prev) => (prev < playlist.length - 1 ? prev + 1 : 0))}
+      />
+
       {/* Top Display */}
       <div className="bg-black border border-zinc-700 p-2 flex justify-between items-center text-green-400">
         <div className="flex items-center space-x-2">
@@ -471,10 +506,7 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
             ◄◄
           </button>
           <button
-            onClick={() => {
-              playSound("click");
-              setIsPlaying(!isPlaying);
-            }}
+            onClick={togglePlay}
             className="px-2 py-0.5 bg-cyan-500 text-black font-bold border border-white/20"
           >
             {isPlaying ? "PAUSE" : "PLAY"}
