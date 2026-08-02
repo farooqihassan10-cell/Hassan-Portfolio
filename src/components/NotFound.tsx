@@ -109,7 +109,7 @@ export default function NotFoundPage() {
     return () => clearInterval(timer);
   }, [stage]);
 
-  // Clock Update & Random Events (20-40s)
+  // Clock Update & Random Events
   useEffect(() => {
     const clockTimer = setInterval(() => {
       const now = new Date();
@@ -218,7 +218,6 @@ export default function NotFoundPage() {
 
           {bootStep >= 5 && (
             <div className="mt-12 flex flex-col items-center text-center">
-              {/* RGB Glitch Box 404 */}
               <div className="relative mb-6">
                 <div className="bg-white text-black px-6 py-2 text-5xl md:text-7xl font-black tracking-widest relative z-10 shadow-[4px_4px_0px_#ff0055,-4px_-4px_0px_#00f0ff]">
                   404
@@ -244,19 +243,17 @@ export default function NotFoundPage() {
       ) : (
         /* ---------------- STAGE 2: RETRO OS DESKTOP ---------------- */
         <div className="min-h-screen flex flex-col justify-between bg-black relative overflow-hidden">
-          /* ---------------- STAGE 2: RETRO OS DESKTOP ---------------- */
-<div className="min-h-screen flex flex-col justify-between bg-black relative overflow-hidden">
-  
-  {/* Wallpaper: Aap ki Custom Background Image */}
-  <div 
-    className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 grayscale contrast-125 pointer-events-none"
-    style={{ 
-      backgroundImage: `url('https://i.pinimg.com/originals/xx/xx/xx/your-image.jpg')` // <-- Yahan Direct Image URL dein
-    }}
-  />
+          
+          {/* Background Wallpaper Image */}
+          <div 
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 grayscale contrast-125 pointer-events-none"
+            style={{ 
+              backgroundImage: `url('https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1200&auto=format&fit=crop')` // <-- Yahan Direct Image URL dein
+            }}
+          />
 
-  {/* Grid Lines Overlay (Retro 90s Grid Effect) */}
-  <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
+          {/* Grid Lines Overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
 
           {/* DESKTOP ICONS GRID */}
           <div className="relative z-10 p-6 grid grid-cols-3 md:grid-cols-7 gap-6 max-w-4xl">
@@ -319,49 +316,46 @@ export default function NotFoundPage() {
                     {win.id === "Console" && <ConsoleTerminal onRestore={() => openWindow("Recovery.exe")} />}
 
                     {/* IMAGE1 ARCHIVE (Multiple Web Images Gallery) */}
-{win.id === "Image1" && (
-  <div className="text-center space-y-4">
-    <div className="border border-zinc-700 p-2 bg-black space-y-4">
-      <div className="text-[10px] text-zinc-500 mb-1">ARCHIVE_ANGEL_RECORDS.RAW</div>
-      
-      {/* ---------------- IMAGE 1 (Web Link) ---------------- */}
-      <div className="relative overflow-hidden group border border-zinc-800">
-        <img
-          src="https://share.google/aXj5M1ekpniM2Ynwy" // <-- Yahan Pehla Direct Image Link Aayega
-          alt="Angel Archive 1"
-          className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
-        />
-        <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
-      </div>
+                    {win.id === "Image1" && (
+                      <div className="text-center space-y-4">
+                        <div className="border border-zinc-700 p-2 bg-black space-y-4">
+                          <div className="text-[10px] text-zinc-500 mb-1">ARCHIVE_ANGEL_RECORDS.RAW</div>
+                          
+                          {/* Image 1 */}
+                          <div className="relative overflow-hidden group border border-zinc-800">
+                            <img
+                              src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop"
+                              alt="Angel Archive 1"
+                              className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
+                            />
+                            <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
+                          </div>
 
-      {/* ---------------- IMAGE 2 (Web Link) ---------------- */}
-      <div className="relative overflow-hidden group border border-zinc-800">
-        <img
-          src="https://share.google/23jj95cBjA9iTPusL" // <-- Yahan Doosra Direct Image Link Aayega (e.g. i.pinimg.com link)
-          alt="Angel Archive 2"
-          className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
-        />
-        <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
-      </div>
+                          {/* Image 2 */}
+                          <div className="relative overflow-hidden group border border-zinc-800">
+                            <img
+                              src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop"
+                              alt="Angel Archive 2"
+                              className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
+                            />
+                            <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
+                          </div>
 
-      {/* ---------------- IMAGE 3 (Web Link) ---------------- */}
-      <div className="relative overflow-hidden group border border-zinc-800">
-        <img
-          src="https://share.google/144UyaKcG62Va14o6" // <-- Yahan Teesra Direct Image Link Aayega
-          alt="Angel Archive 3"
-          className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
-        />
-        <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
-      </div>
-
-    </div>
-    <p className="text-[10px] text-zinc-400">
-      Encrypted visual memory from Node 404.
-    </p>
-  </div>
-)}
-
-
+                          {/* Image 3 */}
+                          <div className="relative overflow-hidden group border border-zinc-800">
+                            <img
+                              src="https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=600&auto=format&fit=crop"
+                              alt="Angel Archive 3"
+                              className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
+                            />
+                            <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
+                          </div>
+                        </div>
+                        <p className="text-[10px] text-zinc-400">
+                          Encrypted visual memory from Node 404.
+                        </p>
+                      </div>
+                    )}
 
                     {/* VIDEO STREAM */}
                     {win.id === "Video" && (
@@ -403,7 +397,7 @@ export default function NotFoundPage() {
                     )}
 
                     {/* LIMBO GAME (CLICK ME) */}
-                    {win.id === "DON'T CLICK" && <LimboGameRunner playSound={playSound} />}
+                    {win.id === "CLICK ME" && <LimboGameRunner playSound={playSound} />}
                   </div>
                 </div>
               )
@@ -456,14 +450,13 @@ export default function NotFoundPage() {
 }
 
 /* ====================================================================
-   SUB-COMPONENT 1: FAKEAMP MUSIC PLAYER (WITH REAL AUDIO LINKS)
+   SUB-COMPONENT 1: FAKEAMP MUSIC PLAYER
 ==================================================================== */
 function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
-  // Custom Audio Songs List
   const playlist = [
     { 
       title: "akiauara, LONOWN - Black n White", 
@@ -505,7 +498,6 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
         onEnded={() => setTrackIndex((prev) => (prev < playlist.length - 1 ? prev + 1 : 0))}
       />
 
-      {/* Top Display */}
       <div className="bg-black border border-zinc-700 p-2 flex justify-between items-center text-green-400">
         <div className="flex items-center space-x-2">
           <span className="text-xs animate-pulse">{isPlaying ? "▶ PLAYING" : "❚❚ PAUSED"}</span>
@@ -516,7 +508,6 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
         <span className="text-xs font-bold">192 kbps</span>
       </div>
 
-      {/* Spectrum Equalizer Visualizer */}
       <div className="bg-black h-12 border border-zinc-800 flex items-end justify-between px-2 py-1 gap-1">
         {[40, 70, 30, 90, 60, 100, 50, 80, 20, 90, 40, 80].map((h, i) => (
           <div
@@ -527,7 +518,6 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
         ))}
       </div>
 
-      {/* Controls */}
       <div className="flex justify-between items-center bg-zinc-800 p-1 border border-zinc-700 text-xs">
         <div className="flex space-x-1">
           <button
@@ -558,7 +548,6 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
         <span className="text-[10px] text-zinc-400">{playlist[trackIndex].duration}</span>
       </div>
 
-      {/* Playlist Box */}
       <div className="bg-black border border-zinc-800 p-1 space-y-1 text-[10px]">
         {playlist.map((item, idx) => (
           <div
@@ -657,7 +646,7 @@ function ConsoleTerminal({ onRestore }: { onRestore: () => void }) {
 }
 
 /* ====================================================================
-   SUB-COMPONENT 3: LIMBO GAME RUNNER WITH JOYSTICK & SLIDE/JUMP
+   SUB-COMPONENT 3: LIMBO GAME RUNNER
 ==================================================================== */
 function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -667,7 +656,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
   const keysRef = useRef({ left: false, right: false, jump: false, slide: false });
   const joystickRef = useRef({ active: false, startX: 0 });
 
-  // Joystick touch
   const handleJoystickStart = (e: React.TouchEvent) => {
     const touch = e.touches[0];
     joystickRef.current = { active: true, startX: touch.clientX };
@@ -728,7 +716,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
       ctx.fillStyle = "#0a0a0c";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Hanging Tree & 404
       ctx.strokeStyle = "#141619";
       ctx.lineWidth = 6;
       ctx.beginPath();
@@ -741,7 +728,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
       ctx.textAlign = "center";
       ctx.fillText("404", 400, 160);
 
-      // Input Processing
       if (keysRef.current.left && player.x > 20) player.x -= 4;
       if (keysRef.current.right && player.x < canvas.width - 60) player.x += 4;
 
@@ -820,7 +806,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
         return;
       }
 
-      // Draw Shadow Character & Eyes
       ctx.fillStyle = "#000000";
       ctx.fillRect(player.x, player.y, player.width, player.height);
 
@@ -868,7 +853,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
         )}
       </div>
 
-      {/* TOUCH JOYSTICK & BUTTONS */}
       {gameState === "PLAYING" && (
         <div className="w-full mt-3 flex justify-between items-center px-4 py-2 bg-zinc-900 border border-zinc-800 rounded">
           <div
