@@ -8,8 +8,8 @@ import Hero from "./components/Hero";
 import About from "./components/About";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
+import DesignGallery from "./components/DesignGallery"; // Shifting order
 import WebDesigns from "./components/WebDesigns";
-import DesignGallery from "./components/DesignGallery";
 import Services from "./components/Services";
 import DriveHub from "./components/DriveHub";
 import Testimonials from "./components/Testimonials";
@@ -113,6 +113,34 @@ export default function App() {
           
           {/* Custom Cursor elements */}
           <div id="custom-cursor" className="hidden md:block pointer-events-none transform-gpu" />
+          <div id="custom-cursor-magnetic" className="hidden md:block pointer-events-none transform-gpu" />
+
+          {/* Core Layout Structure */}
+          <Navbar />
+          
+          <main>
+            <Hero />
+            <About />
+            <Skills />
+            <Projects />
+            
+            {/* Design Gallery positioned before Web Designs */}
+            <DesignGallery /> 
+            
+            <WebDesigns />
+            <Services />
+            <DriveHub />
+            <Testimonials />
+            <Contact />
+          </main>
+          
+          <Footer />
+
+        </div>
+      )}
+    </>
+  );
+}
           <div id="custom-cursor-magnetic" className="hidden md:block pointer-events-none transform-gpu" />
 
           {/* Core Layout Structure */}
