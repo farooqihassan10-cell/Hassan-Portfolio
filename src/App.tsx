@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import Lenis from "lenis";
 import gsap from "gsap";
 
+import NotFoundPage from "./components/NotFound";
 import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
@@ -18,10 +19,18 @@ import Footer from "./components/Footer";
 
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
+  const [is404, setIs404] = useState(false);
+
+  // 0. Check Route Path for 404
+  useEffect(() => {
+    if (window.location.pathname !== "/" && window.location.pathname !== "") {
+      setIs404(true);
+    }
+  }, []);
 
   // 1. Initialize Lenis Smooth Scroll
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || is404) return;
 
     const lenis = new Lenis({
       duration: 1.2,
@@ -39,11 +48,11 @@ export default function App() {
     return () => {
       lenis.destroy();
     };
-  }, [isLoading]);
+  }, [isLoading, is404]);
 
   // 2. Custom Dual Cursor GSAP Orchestrator
   useEffect(() => {
-    if (isLoading) return;
+    if (isLoading || is404) return;
 
     const cursor = document.getElementById("custom-cursor");
     const cursorMagnetic = document.getElementById("custom-cursor-magnetic");
@@ -97,7 +106,12 @@ export default function App() {
       window.removeEventListener("mouseover", handleMouseOver);
       document.body.classList.remove("cursor-hover");
     };
-  }, [isLoading]);
+  }, [isLoading, is404]);
+
+  // If URL path is invalid, render 404 Game Page
+  if (is404) {
+    return <NotFoundPage />;
+  }
 
   return (
     <>
