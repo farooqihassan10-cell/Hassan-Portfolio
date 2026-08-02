@@ -316,7 +316,7 @@ export default function NotFoundPage() {
                           {/* Dark Angel Art Effect */}
                           <div className="relative overflow-hidden group">
                             <img
-                              src="https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=600&auto=format&fit=crop"
+                              src="https://share.google/aXj5M1ekpniM2Ynwy"
                               alt="Angel Archive"
                               className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
                             />
