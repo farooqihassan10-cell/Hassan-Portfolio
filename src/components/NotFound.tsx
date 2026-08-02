@@ -308,26 +308,50 @@ export default function NotFoundPage() {
                     {/* CONSOLE TERMINAL */}
                     {win.id === "Console" && <ConsoleTerminal onRestore={() => openWindow("Recovery.exe")} />}
 
-                    {/* IMAGE1 ARCHIVE */}
-                    {win.id === "Image1" && (
-                      <div className="text-center space-y-3">
-                        <div className="border border-zinc-700 p-2 bg-black">
-                          <div className="text-[10px] text-zinc-500 mb-1">ARCHIVE_ANGEL_RECORDS.RAW</div>
-                          {/* Dark Angel Art Effect */}
-                          <div className="relative overflow-hidden group">
-                            <img
-                              src="https://share.google/aXj5M1ekpniM2Ynwy"
-                              alt="Angel Archive"
-                              className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
-                            />
-                            <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
-                          </div>
-                        </div>
-                        <p className="text-[10px] text-zinc-400">
-                          Encrypted visual memory from Node 404.
-                        </p>
-                      </div>
-                    )}
+                    {/* IMAGE1 ARCHIVE (Multiple Web Images Gallery) */}
+{win.id === "Image1" && (
+  <div className="text-center space-y-4">
+    <div className="border border-zinc-700 p-2 bg-black space-y-4">
+      <div className="text-[10px] text-zinc-500 mb-1">ARCHIVE_ANGEL_RECORDS.RAW</div>
+      
+      {/* ---------------- IMAGE 1 (Web Link) ---------------- */}
+      <div className="relative overflow-hidden group border border-zinc-800">
+        <img
+          src="https://share.google/aXj5M1ekpniM2Ynwy" // <-- Yahan Pehla Direct Image Link Aayega
+          alt="Angel Archive 1"
+          className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
+        />
+        <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
+      </div>
+
+      {/* ---------------- IMAGE 2 (Web Link) ---------------- */}
+      <div className="relative overflow-hidden group border border-zinc-800">
+        <img
+          src="https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=600&auto=format&fit=crop" // <-- Yahan Doosra Direct Image Link Aayega (e.g. i.pinimg.com link)
+          alt="Angel Archive 2"
+          className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
+        />
+        <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
+      </div>
+
+      {/* ---------------- IMAGE 3 (Web Link) ---------------- */}
+      <div className="relative overflow-hidden group border border-zinc-800">
+        <img
+          src="https://images.unsplash.com/photo-1514539079130-25950c84af65?q=80&w=600&auto=format&fit=crop" // <-- Yahan Teesra Direct Image Link Aayega
+          alt="Angel Archive 3"
+          className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
+        />
+        <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
+      </div>
+
+    </div>
+    <p className="text-[10px] text-zinc-400">
+      Encrypted visual memory from Node 404.
+    </p>
+  </div>
+)}
+
+
 
                     {/* VIDEO STREAM */}
                     {win.id === "Video" && (
