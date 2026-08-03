@@ -283,7 +283,7 @@ export const WEB_DESIGNS: WebDesign[] = [
     description: "A modern coding platform featuring a clean developer interface, real-time code previews, responsive design, optimized performance, and an intuitive user experience.",
     image: webProject2,
     tech: ["React", "Tailwind", "Firebase", "GSAP"],
-    visitUrl: "#",
+    visitUrl: "https://access-anything-dci74d5ct-farooqihassan10-cells-projects.vercel.app/",
     githubUrl: "#"
   },
   {
@@ -294,7 +294,7 @@ export const WEB_DESIGNS: WebDesign[] = [
     description: "A luxury portfolio website crafted with premium UI/UX, cinematic animations, interactive sections, glassmorphism aesthetics, and fully responsive performance to professionally showcase creative work and personal brand.",
     image: webProject3,
     tech: ["Cloud", "Gemini", "Google AI Studio", "ChatGPT", "Black Box AI"],
-    visitUrl: "#",
+    visitUrl: "https://flash-mind-five.vercel.app/",
     githubUrl: "#"
   },
   {
@@ -305,7 +305,7 @@ export const WEB_DESIGNS: WebDesign[] = [
     description: "A futuristic 3D portfolio website with immersive animations, glassmorphism effects, smooth transitions, interactive sections, and a premium visual experience.",
     image: webProject4,
     tech: ["React", "GSAP", "Canvas 3D", "CSS-3D", "Lenis"],
-    visitUrl: "#",
+    visitUrl: "https://empty-design-olive.vercel.app/",
     githubUrl: "#"
   },
   {
@@ -316,7 +316,7 @@ export const WEB_DESIGNS: WebDesign[] = [
     description: "An advanced AI-powered website integrating modern automation tools, intelligent workflows, clean interfaces, and high-performance user interactions.",
     image: webProject5,
     tech: ["React", "WebSockets", "Recharts", "Tailwind", "GSAP"],
-    visitUrl: "#",
+    visitUrl: "https://morph-web-red.vercel.app/",
     githubUrl: "#"
   },
 {
@@ -325,9 +325,9 @@ export const WEB_DESIGNS: WebDesign[] = [
     name: "Advance Codes",
     category: "Web Design",
     description: "An advanced AI-powered website integrating modern automation tools, intelligent workflows, clean interfaces, and high-performance user interactions.",
-    image: webProject5,
+    image: webProject6,
     tech: ["React", "WebSockets", "Recharts", "Tailwind", "GSAP"],
-    visitUrl: "#",
+    visitUrl: "https://hassan-mocha.vercel.app/",
     githubUrl: "#"
   },
 ];
