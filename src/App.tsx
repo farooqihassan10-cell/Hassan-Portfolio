@@ -140,7 +140,10 @@ export default function App() {
             <Projects />
             <DesignGallery />
             <WebDesigns />
-            <interactiveParticles />
+            <<div className="w-full h-[500px] relative">
+  <InteractiveParticles src="/images/hero-bg.png" />
+</div>
+
             <Services />
             <DriveHub />
             <Testimonials />
