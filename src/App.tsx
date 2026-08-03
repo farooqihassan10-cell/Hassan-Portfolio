@@ -140,7 +140,7 @@ export default function App() {
             <Projects />
             <DesignGallery />
             <WebDesigns />
-            <interactiveparticles />
+            <interactiveParticles />
             <Services />
             <DriveHub />
             <Testimonials />
