@@ -14,19 +14,16 @@ interface WindowState {
 }
 
 export default function NotFoundPage() {
-  // STAGES: 'BOOT' -> 'DESKTOP'
   const [stage, setStage] = useState<"BOOT" | "DESKTOP">("BOOT");
   const [bootStep, setBootStep] = useState(0);
 
-  // Time & Glitch Effects
   const [time, setTime] = useState("4:04 AM");
   const [randomGlitch, setRandomGlitch] = useState<string | null>(null);
   const [maxZIndex, setMaxZIndex] = useState(10);
 
-  // Audio Synth Ref (Web Audio API)
   const audioCtxRef = useRef<AudioContext | null>(null);
 
-  // Background Horror Images (Change URLs here if you want custom images)
+  // Background Horror & Glitch Textures
   const horrorBgImage = "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?q=80&w=1200";
   const glitchBgImage = "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?q=80&w=1000";
 
@@ -41,7 +38,7 @@ export default function NotFoundPage() {
     "Recovery.exe": { id: "Recovery.exe", title: "System_Restore.exe", icon: "🧬", isOpen: false, isMinimized: false, x: 320, y: 100, zIndex: 7 },
   });
 
-  // Sound Synthesizer Engine
+  // Sound Synthesizer
   const playSound = (type: "beep" | "click" | "glitch" | "jump" | "slide" | "die") => {
     try {
       if (!audioCtxRef.current) {
@@ -97,7 +94,7 @@ export default function NotFoundPage() {
     } catch (e) {}
   };
 
-  // Stage 1 Boot Typing Sequence
+  // Boot Sequence
   useEffect(() => {
     if (stage !== "BOOT") return;
     const timer = setInterval(() => {
@@ -109,11 +106,11 @@ export default function NotFoundPage() {
         }
         return prev + 1;
       });
-    }, 600);
+    }, 500);
     return () => clearInterval(timer);
   }, [stage]);
 
-  // Clock Update & Random Events (20-40s)
+  // Glitch Effect Loop
   useEffect(() => {
     const clockTimer = setInterval(() => {
       const now = new Date();
@@ -126,9 +123,9 @@ export default function NotFoundPage() {
         const chosen = events[Math.floor(Math.random() * events.length)];
         setRandomGlitch(chosen);
         playSound("glitch");
-        setTimeout(() => setRandomGlitch(null), 1200);
+        setTimeout(() => setRandomGlitch(null), 800);
       }
-    }, Math.random() * 20000 + 20000);
+    }, Math.random() * 15000 + 10000);
 
     return () => {
       clearInterval(clockTimer);
@@ -136,7 +133,6 @@ export default function NotFoundPage() {
     };
   }, [stage]);
 
-  // Window Handlers
   const openWindow = (id: string) => {
     playSound("click");
     const newZ = maxZIndex + 1;
@@ -164,7 +160,6 @@ export default function NotFoundPage() {
     }));
   };
 
-  // Draggable logic for Desktop Windows
   const handleMouseDown = (id: string, e: React.MouseEvent) => {
     focusWindow(id);
     const win = windows[id];
@@ -194,16 +189,18 @@ export default function NotFoundPage() {
   return (
     <div
       className={`min-h-screen bg-black text-white font-mono select-none overflow-hidden relative ${
-        randomGlitch === "shake" ? "animate-bounce" : ""
+        randomGlitch === "shake" ? "animate-pulse translate-x-1" : ""
       }`}
     >
-      {/* CRT Scanline & Noise Overlay */}
-      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.25)_50%)] bg-[length:100%_4px] pointer-events-none z-50 opacity-60" />
+      {/* Intense CRT Glitch Line & Scanline Overlay */}
+      <div className="absolute inset-0 bg-[linear-gradient(rgba(18,16,16,0)_50%,rgba(0,0,0,0.4)_50%)] bg-[length:100%_4px] pointer-events-none z-50 opacity-80" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,_var(--tw-gradient-stops))] from-transparent via-black/40 to-black pointer-events-none z-40" />
+
       {randomGlitch === "red-flash" && (
-        <div className="absolute inset-0 bg-red-950/40 z-40 pointer-events-none animate-pulse" />
+        <div className="absolute inset-0 bg-red-950/50 z-40 pointer-events-none animate-ping" />
       )}
 
-      {/* ---------------- STAGE 1: BOOT SEQUENCE ---------------- */}
+      {/* ---------------- STAGE 1: BOOT SEQUENCE & INITIAL GLITCH SCREEN ---------------- */}
       {stage === "BOOT" ? (
         <div
           onClick={() => {
@@ -212,42 +209,46 @@ export default function NotFoundPage() {
           }}
           className="min-h-screen flex flex-col items-center justify-center cursor-pointer p-4 relative overflow-hidden bg-cover bg-center bg-no-repeat"
           style={{
-            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.85), rgba(0, 0, 0, 0.85)), url('${glitchBgImage}')`,
+            backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.9), rgba(0, 0, 0, 0.85)), url('${glitchBgImage}')`,
           }}
         >
-          <div className="max-w-md w-full space-y-2 text-xs md:text-sm text-zinc-400 z-10">
-            {bootStep >= 0 && <p className="text-zinc-500">PROJECT VOID404 v3.09... INITIALIZING</p>}
-            {bootStep >= 1 && <p>BOOTING SYSTEM KERNEL...</p>}
-            {bootStep >= 2 && <p>CHECKING CORRUPTED MEMORY BLOCKS... [FAILED]</p>}
-            {bootStep >= 3 && <p className="text-yellow-500">INITIALIZING AUDIO / GRAPHICS DRIVERS...</p>}
-            {bootStep >= 4 && <p className="text-cyan-400">CONNECTING TO DARK TERMINAL NODE...</p>}
+          {/* Top Boot Terminal Log */}
+          <div className="max-w-lg w-full space-y-1.5 text-xs font-mono text-zinc-400 z-10 uppercase tracking-widest">
+            {bootStep >= 0 && <p className="text-zinc-500">// VOID_OS_CORE_INIT_v3.0.9</p>}
+            {bootStep >= 1 && <p className="text-red-500">[ERR] MEMORY CORRUPTED AT SECTOR 0x404</p>}
+            {bootStep >= 2 && <p className="text-cyan-400">LOADING AUDIO_SYNTH_ENGINE... OK</p>}
+            {bootStep >= 3 && <p className="text-yellow-400">CONNECTING TO DARK TERMINAL NODE...</p>}
+            {bootStep >= 4 && <p className="text-green-500">GLITCH INTERFACE MOUNTED.</p>}
           </div>
 
+          {/* Video-Matched Glitch Text Block */}
           {bootStep >= 5 && (
-            <div className="mt-12 flex flex-col items-center text-center z-10">
-              {/* RGB Glitch Box 404 with Horror Backdrop */}
-              <div className="relative mb-6">
+            <div className="mt-10 flex flex-col items-center text-center z-10">
+              {/* Main 404 Glitch Banner */}
+              <div className="relative mb-6 group">
                 <div
-                  className="bg-zinc-900 border-2 border-white text-white px-8 py-3 text-6xl md:text-8xl font-black tracking-widest relative z-10 shadow-[6px_6px_0px_#ff0055,-6px_-6px_0px_#00f0ff] bg-cover bg-center"
+                  className="bg-zinc-950 border-2 border-white text-white px-10 py-4 text-7xl md:text-9xl font-black tracking-widest relative z-10 uppercase bg-cover bg-center shadow-[8px_8px_0px_#ff0055,-8px_-8px_0px_#00f0ff]"
                   style={{
-                    backgroundImage: `linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('${horrorBgImage}')`,
+                    backgroundImage: `linear-gradient(rgba(0,0,0,0.7), rgba(0,0,0,0.7)), url('${horrorBgImage}')`,
                   }}
                 >
-                  404
+                  <span className="drop-shadow-[0_0_10px_rgba(255,255,255,0.8)]">404</span>
                 </div>
               </div>
 
-              <div className="text-xs md:text-sm text-cyan-400 tracking-widest mb-2 animate-pulse">
-                123456789
+              {/* Video Style Glitch Strings */}
+              <div className="font-mono text-xs md:text-sm text-cyan-400 tracking-[0.3em] font-extrabold mb-1 animate-pulse uppercase">
+                123456789_CRITICAL_VOID
               </div>
-              <div className="text-[10px] md:text-xs text-rose-500 tracking-widest mb-8 max-w-xs break-all opacity-80">
+              <div className="font-mono text-[10px] md:text-xs text-rose-500 tracking-[0.2em] mb-8 max-w-sm break-all opacity-90 font-bold uppercase">
                 AWEUGUYIUHD07PKDmpkqmziontpasthasdtisa
               </div>
 
-              <div className="flex flex-col items-center space-y-1 text-cyan-300 text-xs md:text-sm tracking-wider">
-                <p className="opacity-90">((don't worry))</p>
-                <p className="text-white font-bold animate-bounce mt-2">
-                  ((just click on the screen))
+              {/* Click prompt matched to video vibes */}
+              <div className="flex flex-col items-center space-y-1 text-cyan-300 font-mono text-xs md:text-sm tracking-widest uppercase">
+                <p className="opacity-80">(( don't worry ))</p>
+                <p className="text-white font-extrabold animate-bounce mt-2 bg-red-950/80 px-4 py-1 border border-red-500 shadow-[0_0_15px_#ff0055]">
+                  (( JUST CLICK ON THE SCREEN ))
                 </p>
               </div>
             </div>
@@ -256,18 +257,18 @@ export default function NotFoundPage() {
       ) : (
         /* ---------------- STAGE 2: RETRO OS DESKTOP ---------------- */
         <div className="min-h-screen flex flex-col justify-between bg-black relative overflow-hidden">
-          {/* Wallpaper: Horror Image Background */}
+          {/* Horror Background Overlay */}
           <div
-            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-60 grayscale contrast-125 pointer-events-none"
+            className="absolute inset-0 bg-cover bg-center bg-no-repeat opacity-50 contrast-150 grayscale pointer-events-none"
             style={{
-              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)), url('${horrorBgImage}')`,
+              backgroundImage: `linear-gradient(rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('${horrorBgImage}')`,
             }}
           />
 
-          {/* Grid Lines Overlay */}
-          <div className="absolute inset-0 bg-[linear-gradient(to_right,#1f1f1f_1px,transparent_1px),linear-gradient(to_bottom,#1f1f1f_1px,transparent_1px)] bg-[size:4rem_4rem] opacity-30 pointer-events-none" />
+          {/* Grid Overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(to_right,#222_1px,transparent_1px),linear-gradient(to_bottom,#222_1px,transparent_1px)] bg-[size:3rem_3rem] opacity-40 pointer-events-none" />
 
-          {/* DESKTOP ICONS GRID */}
+          {/* DESKTOP ICONS */}
           <div className="relative z-10 p-6 grid grid-cols-3 md:grid-cols-7 gap-6 max-w-4xl">
             {Object.values(windows).map((win) => (
               <div
@@ -275,17 +276,17 @@ export default function NotFoundPage() {
                 onClick={() => openWindow(win.id)}
                 className="flex flex-col items-center space-y-2 p-2 rounded hover:bg-white/10 cursor-pointer group"
               >
-                <div className="w-12 h-12 border-2 border-white bg-zinc-900 flex items-center justify-center shadow-[3px_3px_0px_#fff] group-hover:translate-x-0.5 group-hover:translate-y-0.5">
+                <div className="w-12 h-12 border-2 border-white bg-zinc-950 flex items-center justify-center shadow-[3px_3px_0px_#fff] group-hover:translate-x-0.5 group-hover:translate-y-0.5">
                   <span className="text-xl">{win.icon}</span>
                 </div>
-                <span className="text-[10px] md:text-xs text-white bg-black/70 px-1 text-center truncate max-w-[80px] group-hover:bg-white group-hover:text-black">
+                <span className="text-[10px] md:text-xs text-white bg-black/80 px-1 text-center truncate max-w-[80px] font-mono group-hover:bg-white group-hover:text-black">
                   {win.id}
                 </span>
               </div>
             ))}
           </div>
 
-          {/* DRAGGABLE DESKTOP WINDOWS */}
+          {/* DESKTOP WINDOWS */}
           {Object.values(windows).map(
             (win) =>
               win.isOpen && (
@@ -297,12 +298,12 @@ export default function NotFoundPage() {
                     zIndex: win.zIndex,
                   }}
                   onClick={() => focusWindow(win.id)}
-                  className="absolute bg-zinc-950 border-2 border-white w-full max-w-md md:max-w-xl shadow-[8px_8px_0px_rgba(255,255,255,0.8)] flex flex-col"
+                  className="absolute bg-zinc-950 border-2 border-white w-full max-w-md md:max-w-xl shadow-[8px_8px_0px_rgba(255,255,255,0.9)] flex flex-col"
                 >
-                  {/* Window Title Bar */}
+                  {/* Title Bar */}
                   <div
                     onMouseDown={(e) => handleMouseDown(win.id, e)}
-                    className="bg-white text-black px-3 py-1 flex justify-between items-center font-bold text-xs uppercase cursor-move select-none"
+                    className="bg-white text-black px-3 py-1 flex justify-between items-center font-extrabold text-xs uppercase cursor-move select-none"
                   >
                     <div className="flex items-center space-x-2">
                       <span>{win.icon}</span>
@@ -320,34 +321,26 @@ export default function NotFoundPage() {
                   </div>
 
                   {/* Window Content */}
-                  <div className="p-4 overflow-y-auto max-h-[70vh] text-xs">
-                    {/* FAKEAMP MUSIC PLAYER WITH CUSTOM TRACKS */}
+                  <div className="p-4 overflow-y-auto max-h-[70vh] text-xs font-mono">
                     {win.id === "Fakeamp" && <FakeampPlayer playSound={playSound} />}
-
-                    {/* CONSOLE TERMINAL */}
                     {win.id === "Console" && <ConsoleTerminal onRestore={() => openWindow("Recovery.exe")} />}
 
-                    {/* IMAGE1 ARCHIVE */}
                     {win.id === "Image1" && (
                       <div className="text-center space-y-4">
                         <div className="border border-zinc-700 p-2 bg-black space-y-4">
-                          <div className="text-[10px] text-zinc-500 mb-1">ARCHIVE_ANGEL_RECORDS.RAW</div>
+                          <div className="text-[10px] text-zinc-500 mb-1">// ARCHIVE_ANGEL_RECORDS.RAW</div>
                           <div className="relative overflow-hidden group border border-zinc-800">
                             <img
                               src={horrorBgImage}
                               alt="Horror Angel Archive"
                               className="w-full grayscale contrast-200 opacity-80 group-hover:scale-105 transition-all duration-500"
                             />
-                            <div className="absolute inset-0 bg-cyan-500/10 mix-blend-color-dodge opacity-0 group-hover:opacity-100" />
                           </div>
                         </div>
-                        <p className="text-[10px] text-zinc-400">
-                          Encrypted visual memory from Node 404.
-                        </p>
+                        <p className="text-[10px] text-zinc-400 uppercase">Encrypted visual memory from Node 404.</p>
                       </div>
                     )}
 
-                    {/* VIDEO STREAM */}
                     {win.id === "Video" && (
                       <div className="text-center space-y-2">
                         <div className="aspect-video bg-zinc-900 border border-zinc-700 flex items-center justify-center relative overflow-hidden">
@@ -358,21 +351,19 @@ export default function NotFoundPage() {
                       </div>
                     )}
 
-                    {/* NOTE FILE */}
                     {win.id === "Note" && (
-                      <div className="bg-black p-3 border border-zinc-800 text-zinc-300 space-y-2">
+                      <div className="bg-black p-3 border border-zinc-800 text-zinc-300 space-y-2 uppercase">
                         <p className="text-cyan-400 font-bold">// INCIDENT_LOG_2026.TXT</p>
                         <p>Subject entered restricted 404 void zone.</p>
                         <p>All navigation paths broken. Only Recovery.exe or Terminal commands can restore system state.</p>
-                        <p className="text-rose-500">WARNING: Do not execute Virus.exe!</p>
+                        <p className="text-rose-500 font-bold">WARNING: Do not execute Virus.exe!</p>
                       </div>
                     )}
 
-                    {/* RECOVERY.EXE */}
                     {win.id === "Recovery.exe" && (
                       <div className="text-center space-y-4 py-4">
                         <p className="text-green-400 font-bold text-sm">SYSTEM RESTORE READY</p>
-                        <p className="text-zinc-400 text-xs">Execute protocol to restore normal website routing?</p>
+                        <p className="text-zinc-400 text-xs uppercase">Execute protocol to restore normal website routing?</p>
                         <button
                           onClick={() => {
                             playSound("glitch");
@@ -386,14 +377,13 @@ export default function NotFoundPage() {
                       </div>
                     )}
 
-                    {/* LIMBO GAME */}
                     {win.id === "CLICK ME" && <LimboGameRunner playSound={playSound} />}
                   </div>
                 </div>
               )
           )}
 
-          {/* RETRO TASKBAR */}
+          {/* TASKBAR */}
           <div className="relative z-10 bg-zinc-300 border-t-2 border-white text-black px-3 py-1 flex justify-between items-center font-bold text-xs shadow-[0px_-2px_0px_#888]">
             <div className="flex items-center space-x-2">
               <button
@@ -409,7 +399,6 @@ export default function NotFoundPage() {
                 <span>START</span>
               </button>
 
-              {/* Taskbar open windows */}
               <div className="hidden md:flex space-x-1">
                 {Object.values(windows).map(
                   (w) =>
@@ -427,7 +416,6 @@ export default function NotFoundPage() {
               </div>
             </div>
 
-            {/* System Tray & Clock */}
             <div className="border-2 border-zinc-500 border-t-black border-l-black px-3 py-0.5 bg-zinc-200 text-zinc-800 flex items-center space-x-2">
               <span>🔊</span>
               <span>{time}</span>
@@ -439,35 +427,16 @@ export default function NotFoundPage() {
   );
 }
 
-/* ====================================================================
-   SUB-COMPONENT 1: FAKEAMP MUSIC PLAYER WITH CUSTOM YOUTUBE TRACKS
-==================================================================== */
+/* ================= FAKEAMP MUSIC PLAYER ================= */
 function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [trackIndex, setTrackIndex] = useState(0);
 
-  // Custom Tracks from Provided YouTube Links
   const playlist = [
-    {
-      title: "Track 1 (gfG9aJzFPd4)",
-      duration: "3:45",
-      url: "https://www.youtube.com/watch?v=gfG9aJzFPd4",
-    },
-    {
-      title: "Track 2 (0ex9KKj7e88)",
-      duration: "4:12",
-      url: "https://www.youtube.com/watch?v=0ex9KKj7e88",
-    },
-    {
-      title: "Track 3 (u9WsZoceais)",
-      duration: "2:50",
-      url: "https://www.youtube.com/watch?v=u9WsZoceais",
-    },
-    {
-      title: "Track 4 (yYz9dpF-Z7w)",
-      duration: "3:15",
-      url: "https://www.youtube.com/watch?v=yYz9dpF-Z7w",
-    },
+    { title: "Track 1 (gfG9aJzFPd4)", duration: "3:45", url: "https://www.youtube.com/watch?v=gfG9aJzFPd4" },
+    { title: "Track 2 (0ex9KKj7e88)", duration: "4:12", url: "https://www.youtube.com/watch?v=0ex9KKj7e88" },
+    { title: "Track 3 (u9WsZoceais)", duration: "2:50", url: "https://www.youtube.com/watch?v=u9WsZoceais" },
+    { title: "Track 4 (yYz9dpF-Z7w)", duration: "3:15", url: "https://www.youtube.com/watch?v=yYz9dpF-Z7w" },
   ];
 
   const togglePlay = () => {
@@ -477,18 +446,14 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
 
   return (
     <div className="bg-zinc-900 border-2 border-zinc-600 p-2 text-white font-mono space-y-2 shadow-inner">
-      {/* Top Display */}
       <div className="bg-black border border-zinc-700 p-2 flex justify-between items-center text-green-400">
         <div className="flex items-center space-x-2">
           <span className="text-xs animate-pulse">{isPlaying ? "▶ PLAYING" : "❚❚ PAUSED"}</span>
-          <span className="text-[10px] text-zinc-400 truncate max-w-[180px]">
-            {playlist[trackIndex].title}
-          </span>
+          <span className="text-[10px] text-zinc-400 truncate max-w-[180px]">{playlist[trackIndex].title}</span>
         </div>
         <span className="text-xs font-bold">192 kbps</span>
       </div>
 
-      {/* Spectrum Equalizer Visualizer */}
       <div className="bg-black h-12 border border-zinc-800 flex items-end justify-between px-2 py-1 gap-1">
         {[40, 70, 30, 90, 60, 100, 50, 80, 20, 90, 40, 80].map((h, i) => (
           <div
@@ -499,7 +464,6 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
         ))}
       </div>
 
-      {/* Controls */}
       <div className="flex justify-between items-center bg-zinc-800 p-1 border border-zinc-700 text-xs">
         <div className="flex space-x-1">
           <button
@@ -511,10 +475,7 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
           >
             ◄◄
           </button>
-          <button
-            onClick={togglePlay}
-            className="px-2 py-0.5 bg-cyan-500 text-black font-bold border border-white/20"
-          >
+          <button onClick={togglePlay} className="px-2 py-0.5 bg-cyan-500 text-black font-bold border border-white/20">
             {isPlaying ? "PAUSE" : "PLAY"}
           </button>
           <button
@@ -530,7 +491,6 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
         <span className="text-[10px] text-zinc-400">{playlist[trackIndex].duration}</span>
       </div>
 
-      {/* Playlist Box */}
       <div className="bg-black border border-zinc-800 p-1 space-y-1 text-[10px]">
         {playlist.map((item, idx) => (
           <div
@@ -543,9 +503,7 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
               trackIndex === idx ? "bg-cyan-900 text-cyan-200 font-bold" : "text-zinc-400 hover:bg-zinc-900"
             }`}
           >
-            <span>
-              {idx + 1}. {item.title}
-            </span>
+            <span>{idx + 1}. {item.title}</span>
             <a
               href={item.url}
               target="_blank"
@@ -562,9 +520,7 @@ function FakeampPlayer({ playSound }: { playSound: (t: any) => void }) {
   );
 }
 
-/* ====================================================================
-   SUB-COMPONENT 2: CONSOLE TERMINAL
-==================================================================== */
+/* ================= CONSOLE TERMINAL ================= */
 function ConsoleTerminal({ onRestore }: { onRestore: () => void }) {
   const [history, setHistory] = useState<Array<{ cmd: string; res: string }>>([
     { cmd: "sys_init", res: "PROJECT VOID404 TERMINAL READY. Type 'help' for commands." },
@@ -595,9 +551,6 @@ function ConsoleTerminal({ onRestore }: { onRestore: () => void }) {
         setHistory([]);
         setInput("");
         return;
-      case "void":
-        res = "ENTERED THE VOID. NO RETURN.";
-        break;
       case "home":
         window.location.href = "/";
         res = "REDIRECTING...";
@@ -636,9 +589,7 @@ function ConsoleTerminal({ onRestore }: { onRestore: () => void }) {
   );
 }
 
-/* ====================================================================
-   SUB-COMPONENT 3: LIMBO GAME RUNNER WITH JOYSTICK & SLIDE/JUMP
-==================================================================== */
+/* ================= LIMBO GAME RUNNER ================= */
 function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
   const [gameState, setGameState] = useState<"IDLE" | "PLAYING" | "GAMEOVER">("IDLE");
@@ -647,7 +598,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
   const keysRef = useRef({ left: false, right: false, jump: false, slide: false });
   const joystickRef = useRef({ active: false, startX: 0 });
 
-  // Joystick touch
   const handleJoystickStart = (e: React.TouchEvent) => {
     const touch = e.touches[0];
     joystickRef.current = { active: true, startX: touch.clientX };
@@ -708,7 +658,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
       ctx.fillStyle = "#0a0a0c";
       ctx.fillRect(0, 0, canvas.width, canvas.height);
 
-      // Hanging Tree & 404
       ctx.strokeStyle = "#141619";
       ctx.lineWidth = 6;
       ctx.beginPath();
@@ -721,7 +670,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
       ctx.textAlign = "center";
       ctx.fillText("404", 400, 160);
 
-      // Input Processing
       if (keysRef.current.left && player.x > 20) player.x -= 4;
       if (keysRef.current.right && player.x < canvas.width - 60) player.x += 4;
 
@@ -800,7 +748,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
         return;
       }
 
-      // Draw Shadow Character & Eyes
       ctx.fillStyle = "#000000";
       ctx.fillRect(player.x, player.y, player.width, player.height);
 
@@ -824,7 +771,7 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
 
         {gameState === "IDLE" && (
           <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4">
-            <h3 className="text-xl font-bold text-white mb-2">LIMBO 404 RUNNER</h3>
+            <h3 className="text-xl font-bold text-white mb-2 uppercase">LIMBO 404 RUNNER</h3>
             <button
               onClick={() => setGameState("PLAYING")}
               className="px-6 py-2 bg-white text-black font-extrabold text-xs uppercase cursor-pointer"
@@ -836,7 +783,7 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
 
         {gameState === "GAMEOVER" && (
           <div className="absolute inset-0 bg-black/90 flex flex-col items-center justify-center p-4">
-            <h3 className="text-xl font-bold text-rose-500 mb-1">CONSUMED BY SHADOWS</h3>
+            <h3 className="text-xl font-bold text-rose-500 mb-1 uppercase">CONSUMED BY SHADOWS</h3>
             <p className="text-xs text-zinc-400 mb-4">SCORE: {score}</p>
             <button
               onClick={() => setGameState("PLAYING")}
@@ -848,7 +795,6 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
         )}
       </div>
 
-      {/* TOUCH JOYSTICK & BUTTONS */}
       {gameState === "PLAYING" && (
         <div className="w-full mt-3 flex justify-between items-center px-4 py-2 bg-zinc-900 border border-zinc-800 rounded">
           <div
@@ -881,3 +827,4 @@ function LimboGameRunner({ playSound }: { playSound: (t: any) => void }) {
     </div>
   );
 }
+
