@@ -134,26 +134,27 @@ export default function App() {
           <Navbar />
 
           <main>
-               <Hero />
-               <About />
-               <Skills />
-               <Projects />
-               <DesignGallery />
-               <WebDesigns />
+  <Hero />
+  <About />
+  <Skills />
+  <Projects />
+  <DesignGallery />
+  <WebDesigns />
   
-             {/* Interactive Particles Section */}
-               <section className="w-full h-[500px] relative my-10">
-                <InteractiveParticles 
-                allowUpload={true} 
-                uploadLabel="Upload Image to Particle"
-                />
-              </section>
+  {/* Pure Upload-based Particle Section */}
+  <section className="w-full h-[500px] relative my-10">
+    <InteractiveParticles 
+      allowUpload={true} 
+      uploadLabel="Upload Image to Particle"
+    />
+  </section>
 
-              <Services />
-              <DriveHub />
-              <Testimonials />
-              <Contact />
-        </main>
+  <Services />
+  <DriveHub />
+  <Testimonials />
+  <Contact />
+</main>
+
 
 
           <Footer />
