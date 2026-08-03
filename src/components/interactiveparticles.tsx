@@ -40,6 +40,7 @@ const SIMPLEX_2D = /* glsl */ `
   }
 `;
 
+
 const VERT = /* glsl */ `
 precision highp float;
 
