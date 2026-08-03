@@ -12,7 +12,7 @@ import { cn } from "@/lib/utils";
  * around the cursor via an off-screen "touch texture".
  */
 
-// Ashima / Stefan Gustavson 2D simplex noise — Fixed with template literal backticks
+// Ashima / Stefan Gustavson 2D simplex noise
 const SIMPLEX_2D = /* glsl */ `
   vec3 mod289(vec3 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
   vec2 mod289(vec2 x) { return x - floor(x * (1.0 / 289.0)) * 289.0; }
@@ -258,8 +258,8 @@ export function InteractiveParticles({
 
     let disposed = false;
     const getSize = () => ({
-      width: container.clientWidth || 1,
-      height: container.clientHeight || 1,
+      width: Math.max(container.clientWidth, 1),
+      height: Math.max(container.clientHeight, 1),
     });
     let view = getSize();
 
@@ -301,105 +301,123 @@ export function InteractiveParticles({
 
     const loader = new THREE.TextureLoader();
     loader.setCrossOrigin("anonymous");
-    loader.load(effectiveSrc, (texture) => {
-      if (disposed) {
-        texture.dispose();
-        return;
+    
+    loader.load(
+      effectiveSrc,
+      (texture) => {
+        if (disposed) {
+          texture.dispose();
+          return;
+        }
+        texture.minFilter = THREE.LinearFilter;
+        texture.magFilter = THREE.LinearFilter;
+
+        const image = texture.image as HTMLImageElement;
+
+        const longest = Math.max(image.width, image.height);
+        const scaleDown = longest > maxDimension ? maxDimension / longest : 1;
+        imgWidth = Math.max(1, Math.round(image.width * scaleDown));
+        imgHeight = Math.max(1, Math.round(image.height * scaleDown));
+        const numPoints = imgWidth * imgHeight;
+
+        const readCanvas = document.createElement("canvas");
+        readCanvas.width = imgWidth;
+        readCanvas.height = imgHeight;
+        const rctx = readCanvas.getContext("2d", { willReadFrequently: true });
+        
+        let colors: Float32Array;
+        try {
+          if (rctx) {
+            rctx.scale(1, -1);
+            rctx.drawImage(image, 0, 0, imgWidth, imgHeight * -1);
+            colors = Float32Array.from(rctx.getImageData(0, 0, imgWidth, imgHeight).data);
+          } else {
+            colors = new Float32Array(numPoints * 4).fill(255);
+          }
+        } catch {
+          colors = new Float32Array(numPoints * 4).fill(255);
+        }
+
+        let numVisible = 0;
+        for (let i = 0; i < numPoints; i++) {
+          if (colors[i * 4] > threshold) numVisible++;
+        }
+
+        uniforms = {
+          uTime: { value: 0 },
+          uRandom: { value: 1.0 },
+          uDepth: { value: 2.0 },
+          uSize: { value: 0.0 },
+          uTextureSize: { value: new THREE.Vector2(imgWidth, imgHeight) },
+          uTexture: { value: texture },
+          uTouch: { value: null },
+          uColor: { value: new THREE.Color(color) },
+        };
+
+        const material = new THREE.RawShaderMaterial({
+          uniforms,
+          vertexShader: VERT,
+          fragmentShader: FRAG,
+          depthTest: false,
+          transparent: true,
+        });
+
+        const geometry = new THREE.InstancedBufferGeometry();
+
+        const positions = new THREE.BufferAttribute(new Float32Array(4 * 3), 3);
+        positions.setXYZ(0, -0.5, 0.5, 0.0);
+        positions.setXYZ(1, 0.5, 0.5, 0.0);
+        positions.setXYZ(2, -0.5, -0.5, 0.0);
+        positions.setXYZ(3, 0.5, -0.5, 0.0);
+        geometry.setAttribute("position", positions);
+
+        const uvs = new THREE.BufferAttribute(new Float32Array(4 * 2), 2);
+        uvs.setXY(0, 0.0, 0.0);
+        uvs.setXY(1, 1.0, 0.0);
+        uvs.setXY(2, 0.0, 1.0);
+        uvs.setXY(3, 1.0, 1.0);
+        geometry.setAttribute("uv", uvs);
+
+        geometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0, 2, 1, 2, 3, 1]), 1));
+
+        const indices = new Uint16Array(numVisible);
+        const offsets = new Float32Array(numVisible * 3);
+        const angles = new Float32Array(numVisible);
+        for (let i = 0, j = 0; i < numPoints; i++) {
+          if (colors[i * 4] <= threshold) continue;
+          offsets[j * 3 + 0] = i % imgWidth;
+          offsets[j * 3 + 1] = Math.floor(i / imgWidth);
+          indices[j] = i;
+          angles[j] = Math.random() * Math.PI;
+          j++;
+        }
+        geometry.setAttribute("pindex", new THREE.InstancedBufferAttribute(indices, 1, false));
+        geometry.setAttribute("offset", new THREE.InstancedBufferAttribute(offsets, 3, false));
+        geometry.setAttribute("angle", new THREE.InstancedBufferAttribute(angles, 1, false));
+
+        object3D = new THREE.Mesh(geometry, material);
+        container3D.add(object3D);
+
+        const hitGeo = new THREE.PlaneGeometry(imgWidth, imgHeight, 1, 1);
+        const hitMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, depthTest: false });
+        hitMat.visible = false;
+        hitArea = new THREE.Mesh(hitGeo, hitMat);
+        container3D.add(hitArea);
+
+        touch = new TouchTexture(touchRadius);
+        uniforms.uTouch.value = touch.texture;
+
+        applyScale();
+
+        gsap.fromTo(uniforms.uSize, { value: 0.5 }, { value: size, duration: 1.0 });
+        gsap.to(uniforms.uRandom, { value: randomness, duration: 1.0 });
+        gsap.fromTo(uniforms.uDepth, { value: 40.0 }, { value: depth, duration: 1.5 });
+      },
+      undefined,
+      (err) => {
+        console.error("Failed to load particle image texture:", err);
       }
-      texture.minFilter = THREE.LinearFilter;
-      texture.magFilter = THREE.LinearFilter;
-
-      const image = texture.image as HTMLImageElement;
-
-      const longest = Math.max(image.width, image.height);
-      const scaleDown = longest > maxDimension ? maxDimension / longest : 1;
-      imgWidth = Math.max(1, Math.round(image.width * scaleDown));
-      imgHeight = Math.max(1, Math.round(image.height * scaleDown));
-      const numPoints = imgWidth * imgHeight;
-
-      const readCanvas = document.createElement("canvas");
-      readCanvas.width = imgWidth;
-      readCanvas.height = imgHeight;
-      const rctx = readCanvas.getContext("2d")!;
-      rctx.scale(1, -1);
-      rctx.drawImage(image, 0, 0, imgWidth, imgHeight * -1);
-      const colors = Float32Array.from(rctx.getImageData(0, 0, imgWidth, imgHeight).data);
-
-      let numVisible = 0;
-      for (let i = 0; i < numPoints; i++) {
-        if (colors[i * 4] > threshold) numVisible++;
-      }
-
-      uniforms = {
-        uTime: { value: 0 },
-        uRandom: { value: 1.0 },
-        uDepth: { value: 2.0 },
-        uSize: { value: 0.0 },
-        uTextureSize: { value: new THREE.Vector2(imgWidth, imgHeight) },
-        uTexture: { value: texture },
-        uTouch: { value: null },
-        uColor: { value: new THREE.Color(color) },
-      };
-
-      const material = new THREE.RawShaderMaterial({
-        uniforms,
-        vertexShader: VERT,
-        fragmentShader: FRAG,
-        depthTest: false,
-        transparent: true,
-      });
-
-      const geometry = new THREE.InstancedBufferGeometry();
-
-      const positions = new THREE.BufferAttribute(new Float32Array(4 * 3), 3);
-      positions.setXYZ(0, -0.5, 0.5, 0.0);
-      positions.setXYZ(1, 0.5, 0.5, 0.0);
-      positions.setXYZ(2, -0.5, -0.5, 0.0);
-      positions.setXYZ(3, 0.5, -0.5, 0.0);
-      geometry.setAttribute("position", positions);
-
-      const uvs = new THREE.BufferAttribute(new Float32Array(4 * 2), 2);
-      uvs.setXY(0, 0.0, 0.0);
-      uvs.setXY(1, 1.0, 0.0);
-      uvs.setXY(2, 0.0, 1.0);
-      uvs.setXY(3, 1.0, 1.0);
-      geometry.setAttribute("uv", uvs);
-
-      geometry.setIndex(new THREE.BufferAttribute(new Uint16Array([0, 2, 1, 2, 3, 1]), 1));
-
-      const indices = new Uint16Array(numVisible);
-      const offsets = new Float32Array(numVisible * 3);
-      const angles = new Float32Array(numVisible);
-      for (let i = 0, j = 0; i < numPoints; i++) {
-        if (colors[i * 4] <= threshold) continue;
-        offsets[j * 3 + 0] = i % imgWidth;
-        offsets[j * 3 + 1] = Math.floor(i / imgWidth);
-        indices[j] = i;
-        angles[j] = Math.random() * Math.PI;
-        j++;
-      }
-      geometry.setAttribute("pindex", new THREE.InstancedBufferAttribute(indices, 1, false));
-      geometry.setAttribute("offset", new THREE.InstancedBufferAttribute(offsets, 3, false));
-      geometry.setAttribute("angle", new THREE.InstancedBufferAttribute(angles, 1, false));
-
-      object3D = new THREE.Mesh(geometry, material);
-      container3D.add(object3D);
-
-      const hitGeo = new THREE.PlaneGeometry(imgWidth, imgHeight, 1, 1);
-      const hitMat = new THREE.MeshBasicMaterial({ color: 0xffffff, wireframe: true, depthTest: false });
-      hitMat.visible = false;
-      hitArea = new THREE.Mesh(hitGeo, hitMat);
-      container3D.add(hitArea);
-
-      touch = new TouchTexture(touchRadius);
-      uniforms.uTouch.value = touch.texture;
-
-      applyScale();
-
-      gsap.fromTo(uniforms.uSize, { value: 0.5 }, { value: size, duration: 1.0 });
-      gsap.to(uniforms.uRandom, { value: randomness, duration: 1.0 });
-      gsap.fromTo(uniforms.uDepth, { value: 40.0 }, { value: depth, duration: 1.5 });
-    });
+    );
 
     const applyScale = () => {
       if (!object3D || !hitArea || !imgHeight) return;
@@ -417,9 +435,11 @@ export function InteractiveParticles({
       rect = canvas.getBoundingClientRect();
       applyScale();
     };
-    const resizeObserver = new ResizeObserver(applySize);
+
+    const resizeObserver = new ResizeObserver(() => {
+      requestAnimationFrame(applySize);
+    });
     resizeObserver.observe(container);
-    window.addEventListener("resize", applySize);
 
     renderer.setAnimationLoop(() => {
       const delta = clock.getDelta();
@@ -432,7 +452,6 @@ export function InteractiveParticles({
       disposed = true;
       renderer.setAnimationLoop(null);
       canvas.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("resize", applySize);
       resizeObserver.disconnect();
       if (uniforms) gsap.killTweensOf([uniforms.uSize, uniforms.uRandom, uniforms.uDepth]);
       if (object3D) {
@@ -456,7 +475,6 @@ export function InteractiveParticles({
     >
       <canvas ref={canvasRef} className="block h-full w-full" />
 
-      {/* Placeholder message when no initial image is passed */}
       {!effectiveSrc && (
         <div className="absolute text-center z-0 pointer-events-none">
           <p className="text-zinc-500 text-xs tracking-widest font-mono uppercase">
