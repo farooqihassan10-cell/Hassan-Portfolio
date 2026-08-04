@@ -23,21 +23,17 @@ export interface RippleDisplacementSliderProps {
 
 const DEFAULT_SLIDES: RippleSlide[] = [
   {
-    title: "Goku",
-    description: "The Earth's greatest defender.",
-    image: "https://images.unsplash.com/photo-1578632767115-351597cf2477?q=80&w=1000",
+    title: "Apna Title 1",
+    description: "Apna Description 1",
+    image: "/assets/your-image-1.jpg", // Local assets path ya Web Image Link
   },
   {
-    title: "Luffy",
-    description: "Captain of the Straw Hat Pirates.",
-    image: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1000",
+    title: "Apna Title 2",
+    description: "Apna Description 2",
+    image: "https://your-domain.com/image2.jpg",
   },
-  {
-    title: "Naruto",
-    description: "The Hero of the Hidden Leaf.",
-    image: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000",
-  }
 ];
+
 
 export const vertexShader = "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
 
