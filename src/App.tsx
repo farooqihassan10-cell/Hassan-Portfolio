@@ -22,22 +22,37 @@ export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [is404, setIs404] = useState(false);
 
-  // Carousel Items Data
-  const myProjects = [
+  // 🚀 Skills List with SVG Icon URLs
+  const mySkills = [
     {
-      src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000",
-      title: "UI Design Workflow",
-      alt: "UI Design Workflow"
+      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/html5/html5-original.svg",
+      title: "HTML5",
+      alt: "HTML5 Icon"
     },
     {
-      src: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1000",
-      title: "Interactive Web App",
-      alt: "Interactive Web App"
+      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/css3/css3-original.svg",
+      title: "CSS3",
+      alt: "CSS3 Icon"
     },
     {
-      src: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000",
-      title: "Retro Arcade VOID",
-      alt: "Retro Arcade VOID"
+      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/javascript/javascript-original.svg",
+      title: "JavaScript",
+      alt: "JavaScript Icon"
+    },
+    {
+      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/react/react-original.svg",
+      title: "React",
+      alt: "React Icon"
+    },
+    {
+      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/vitejs/vitejs-original.svg",
+      title: "Vite",
+      alt: "Vite Icon"
+    },
+    {
+      src: "https://cdn.jsdelivr.net/gh/devicons/devicon/icons/python/python-original.svg",
+      title: "Python",
+      alt: "Python Icon"
     }
   ];
 
@@ -95,9 +110,9 @@ export default function App() {
             <Hero />
             <About />
             
-            {/* Diagonal Carousel Section */}
+            {/* 🎯 Diagonal Carousel Skills Section */}
             <div className="h-[450px] w-full max-w-6xl mx-auto my-12">
-              <DiagonalCarousel items={myProjects} loop={true} />
+              <DiagonalCarousel items={mySkills} loop={true} />
             </div>
 
             <Skills />
