@@ -7,6 +7,7 @@ import Loader from "./components/Loader";
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import About from "./components/About";
+import DiagonalCarousel from "./components/DiagonalCarousel";
 import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import DesignGallery from "./components/DesignGallery";
@@ -20,6 +21,25 @@ import Footer from "./components/Footer";
 export default function App() {
   const [isLoading, setIsLoading] = useState(true);
   const [is404, setIs404] = useState(false);
+
+  // Carousel Items Data
+  const myProjects = [
+    {
+      src: "https://images.unsplash.com/photo-1618005182384-a83a8bd57fbe?q=80&w=1000",
+      title: "UI Design Workflow",
+      alt: "UI Design Workflow"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1607604276583-eef5d076aa5f?q=80&w=1000",
+      title: "Interactive Web App",
+      alt: "Interactive Web App"
+    },
+    {
+      src: "https://images.unsplash.com/photo-1550745165-9bc0b252726f?q=80&w=1000",
+      title: "Retro Arcade VOID",
+      alt: "Retro Arcade VOID"
+    }
+  ];
 
   // 0. Check Route Path for 404
   useEffect(() => {
@@ -50,65 +70,6 @@ export default function App() {
     };
   }, [isLoading, is404]);
 
-  // 2. Custom Dual Cursor GSAP Orchestrator
-  useEffect(() => {
-    if (isLoading || is404) return;
-
-    const cursor = document.getElementById("custom-cursor");
-    const cursorMagnetic = document.getElementById("custom-cursor-magnetic");
-
-    if (!cursor || !cursorMagnetic) return;
-
-    const handleMouseMove = (e: MouseEvent) => {
-      gsap.to(cursor, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.08,
-        ease: "power2.out",
-      });
-
-      gsap.to(cursorMagnetic, {
-        x: e.clientX,
-        y: e.clientY,
-        duration: 0.28,
-        ease: "power3.out",
-      });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    const handleMouseOver = (e: MouseEvent) => {
-      const target = e.target as HTMLElement;
-      if (!target) return;
-
-      const isClickable =
-        target.tagName === "BUTTON" ||
-        target.closest("button") ||
-        target.tagName === "A" ||
-        target.closest("a") ||
-        target.tagName === "INPUT" ||
-        target.tagName === "TEXTAREA" ||
-        target.classList.contains("cursor-pointer") ||
-        target.closest(".glass-card") ||
-        target.closest("nav");
-
-      if (isClickable) {
-        document.body.classList.add("cursor-hover");
-      } else {
-        document.body.classList.remove("cursor-hover");
-      }
-    };
-
-    window.addEventListener("mouseover", handleMouseOver);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-      window.removeEventListener("mouseover", handleMouseOver);
-      document.body.classList.remove("cursor-hover");
-    };
-  }, [isLoading, is404]);
-
-  // If URL path is invalid, render 404 Game Page
   if (is404) {
     return <NotFoundPage />;
   }
@@ -118,34 +79,36 @@ export default function App() {
       {isLoading ? (
         <Loader onComplete={() => setIsLoading(false)} />
       ) : (
-        <div className="relative min-h-screen bg-[#050505] text-[#ffffff] overflow-hidden transform-gpu select-none">
-          {/* Custom Cursor elements */}
+        <div className="relative min-h-screen bg-[#050505] text-white">
           <div
             id="custom-cursor"
-            className="hidden md:block pointer-events-none transform-gpu"
+            className="hidden md:block pointer-events-none fixed z-50"
           />
           <div
             id="custom-cursor-magnetic"
-            className="hidden md:block pointer-events-none transform-gpu"
+            className="hidden md:block pointer-events-none fixed z-50"
           />
 
-          {/* Core Layout Structure */}
           <Navbar />
 
           <main>
-  <Hero />
-  <About />
-  <Skills />
-  <Projects />
-  <DesignGallery />
-  <WebDesigns />
-  <Services />
-  <DriveHub />
-  <Testimonials />
-  <Contact />
-</main>
+            <Hero />
+            <About />
+            
+            {/* Diagonal Carousel Section */}
+            <div className="h-[450px] w-full max-w-6xl mx-auto my-12">
+              <DiagonalCarousel items={myProjects} loop={true} />
+            </div>
 
-
+            <Skills />
+            <Projects />
+            <DesignGallery />
+            <WebDesigns />
+            <Services />
+            <DriveHub />
+            <Testimonials />
+            <Contact />
+          </main>
 
           <Footer />
         </div>
