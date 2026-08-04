@@ -25,13 +25,13 @@ export interface RippleDisplacementSliderProps {
 
 const DEFAULT_SLIDES: RippleSlide[] = [
   {
-    title: "Apna Title 1",
-    description: "Apna Description 1",
+    title: "HASSAN",
+    description: "Premium Design",
     image: image1,
   },
   {
-    title: "Apna Title 2",
-    description: "Apna Description 2",
+    title: "PROGRAMME",
+    description: "I love Programming",
     image: image2,
   },
 ];
