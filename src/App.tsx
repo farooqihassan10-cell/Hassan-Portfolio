@@ -11,7 +11,6 @@ import Skills from "./components/Skills";
 import Projects from "./components/Projects";
 import DesignGallery from "./components/DesignGallery";
 import WebDesigns from "./components/WebDesigns";
-import InteractiveParticles from "./components/interactiveparticles";
 import Services from "./components/Services";
 import DriveHub from "./components/DriveHub";
 import Testimonials from "./components/Testimonials";
@@ -140,7 +139,6 @@ export default function App() {
   <Projects />
   <DesignGallery />
   <WebDesigns />
-  <InteractiveParticles />
   <Services />
   <DriveHub />
   <Testimonials />
