@@ -5,6 +5,8 @@ import * as THREE from "three";
 import gsap from "gsap";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
+import image1 from "../assets/images/image1.png";
+import image2 from "../assets/images/image2.png";
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -25,12 +27,12 @@ const DEFAULT_SLIDES: RippleSlide[] = [
   {
     title: "Apna Title 1",
     description: "Apna Description 1",
-    image: "/assets/your-image-1.jpg", // Local assets path ya Web Image Link
+    image: image1,
   },
   {
     title: "Apna Title 2",
     description: "Apna Description 2",
-    image: "https://your-domain.com/image2.jpg",
+    image: image2,
   },
 ];
 
