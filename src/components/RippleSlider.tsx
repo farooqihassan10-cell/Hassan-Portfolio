@@ -39,13 +39,7 @@ const DEFAULT_SLIDES: RippleSlide[] = [
   }
 ];
 
-export const vertexShader = `
-  varying vec2 vUv; 
-  void main() { 
-    vUv = uv; 
-    gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); 
-  }
-`;
+export const vertexShader = "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
 
 export const fragmentShader = `
 uniform sampler2D uTexCurrent;
@@ -149,7 +143,7 @@ export function RippleDisplacementSlider({
   const [currentIndex, setCurrentIndex] = useState(0);
   const [texturesLoaded, setTexturesLoaded] = useState(false);
 
-  const materialRef = useRef<THREE.ShaderMaterial null |>(null);
+  const materialRef = useRef<THREE.ShaderMaterial | null>(null);
   const texturesRef = useRef<THREE.Texture[]>([]);
   const isTransitioning = useRef(false);
 
