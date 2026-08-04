@@ -36,7 +36,6 @@ const DEFAULT_SLIDES: RippleSlide[] = [
   },
 ];
 
-
 export const vertexShader = "varying vec2 vUv; void main() { vUv = uv; gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0); }";
 
 export const fragmentShader = `
@@ -74,8 +73,9 @@ bool isInsideBox(vec2 uv, vec2 boxMin, vec2 boxMax) {
 }
 
 void main() {
-  vec2 boxMin = mix(vec2(0.25, 0.175), vec2(0.0), uMobile);
-  vec2 boxMax = mix(vec2(0.75, 0.825), vec2(1.0), uMobile);
+  // Full image view - boundaries set to cover full box
+  vec2 boxMin = vec2(0.0);
+  vec2 boxMax = vec2(1.0);
 
   float aspectRatio = uResolution.y / uResolution.x;
   vec2 coord = vec2(vUv.x, vUv.y * aspectRatio);
@@ -341,7 +341,7 @@ export function RippleDisplacementSlider({
   return (
     <div
       ref={containerRef}
-      className={cn("slider relative w-full h-[600px] overflow-hidden bg-[#050505] cursor-pointer rounded-2xl border border-white/10 my-8", className)}
+      className={cn("slider relative w-full h-[450px] sm:h-[600px] overflow-hidden bg-[#050505] cursor-pointer rounded-2xl border border-white/10 my-8", className)}
       onClick={handleNextSlide}
     >
       <canvas ref={canvasRef} className="block w-full h-full absolute inset-0 z-0" />
@@ -362,4 +362,3 @@ export function RippleDisplacementSlider({
 }
 
 export default RippleDisplacementSlider;
-
