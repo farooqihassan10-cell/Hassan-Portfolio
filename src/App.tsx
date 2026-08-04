@@ -140,15 +140,7 @@ export default function App() {
   <Projects />
   <DesignGallery />
   <WebDesigns />
-  
-  {/* Pure Upload-based Particle Section */}
-  <section className="w-full h-[500px] relative my-10">
-    <InteractiveParticles 
-      allowUpload={true} 
-      uploadLabel="Upload Image to Particle"
-    />
-  </section>
-
+  <InteractiveParticles />
   <Services />
   <DriveHub />
   <Testimonials />
