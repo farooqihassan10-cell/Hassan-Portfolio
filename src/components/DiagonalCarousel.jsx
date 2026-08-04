@@ -3,7 +3,13 @@
 import * as React from "react";
 import { motion } from "framer-motion";
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { cn } from "@/lib/utils";
+import { clsx } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+// Internal cn helper function (No utils file needed)
+function cn(...inputs) {
+  return twMerge(clsx(inputs));
+}
 
 const DEFAULT_TRANSITION = {
   type: "spring",
